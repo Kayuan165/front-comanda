@@ -4,9 +4,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent() {
-      return import('./features/pages/login/login').then(
-        (m) => m.Login
-      );
+      return import('./features/pages/login/login').then((m) => m.Login);
     },
   },
   // {
@@ -20,10 +18,6 @@ export const routes: Routes = [
   // },
   // {
   //   path: 'pedidos',
-  //   loadComponent() {
-  //     return import('./features/pages/pedidos/pedidos').then((m) => m.Pedidos);
-  //   },
-  //   canActivate: [],
   // },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 

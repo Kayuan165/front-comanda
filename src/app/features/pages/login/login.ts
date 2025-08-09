@@ -47,7 +47,7 @@ export class Login {
     this.authService.login(email, senha).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/pedidos']);
       },
       error: (err) => {
         this.errorMessage = 'Falha no login. Verifique suas credenciais.';
