@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { Login } from './features/pages/login/login';
 
 export const routes: Routes = [
   {
@@ -7,15 +8,14 @@ export const routes: Routes = [
       return import('./features/pages/login/login').then((m) => m.Login);
     },
   },
-  // {
-  //   path: 'produtos',
-  //   loadComponent() {
-  //     return import('./features/pages/produtos/produtos').then(
-  //       (m) => m.Produtos
-  //     );
-  //   },
-  //   canActivate: [],
-  // },
+  {
+    path: 'produtos',
+    loadComponent() {
+      return import('./features/produto/produto-list/produto-list').then(
+        (m) => m.ProdutoList
+      );
+    },
+  },
   // {
   //   path: 'pedidos',
   // },

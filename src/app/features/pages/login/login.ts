@@ -24,7 +24,7 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,7 +33,6 @@ export class Login {
   }
 
   submit() {
-
     if (this.loginForm.invalid) {
       this.errorMessage = 'Por favor, preencha o formulário corretamente.';
       return;
@@ -47,7 +46,7 @@ export class Login {
     this.authService.login(email, senha).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/pedidos']);
+        this.router.navigate(['/produtos']);
       },
       error: (err) => {
         this.errorMessage = 'Falha no login. Verifique suas credenciais.';

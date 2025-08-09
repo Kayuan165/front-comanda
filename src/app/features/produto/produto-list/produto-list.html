@@ -1,0 +1,23 @@
+<section class="produto-list">
+  <div class="status-message" *ngIf="loading">Carregando produtos...</div>
+
+  <div class="status-message error" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <div class="produtos-container" *ngIf="!loading && !error">
+    <div class="produto-card" *ngFor="let produto of produtos">
+      <div class="produto-info">
+        <div class="produto-header">
+          <span class="produto-icone">📦</span>
+          <h3 class="produto-descricao">{{ produto.descricao }}</h3>
+        </div>
+        <div class="produto-body">
+          <p class="produto-preco">{{ produto.preco | currencyBr }}</p>
+          <span *ngIf="produto.adicional" class="badge">Adicional</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+  </div>
+</section>

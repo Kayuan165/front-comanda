@@ -1,6 +1,9 @@
 export interface Produto {
-  _id: string;
   descricao: string;
   preco: number;
-  isAdicional?: boolean;
+  numero: number;
+  ativo: boolean;
+  adicional: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
