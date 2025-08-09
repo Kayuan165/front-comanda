@@ -17,8 +17,7 @@ export class ProdutoList implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private produtoService: ProdutoService) {
-  }
+  constructor(private produtoService: ProdutoService) {}
 
   ngOnInit(): void {
     this.produtoService.getAllProdutos().subscribe({
