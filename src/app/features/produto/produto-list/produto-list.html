@@ -1,9 +1,6 @@
 <section class="produto-list">
   <div class="status-message" *ngIf="loading">Carregando produtos...</div>
-
-  <div class="status-message error" *ngIf="error">
-    {{ error }}
-  </div>
+  <div class="status-message error" *ngIf="error">{{ error }}</div>
 
   <div class="produtos-container" *ngIf="!loading && !error">
     <div class="produto-card" *ngFor="let produto of produtos">
@@ -17,7 +14,76 @@
           <span *ngIf="produto.adicional" class="badge">Adicional</span>
         </div>
       </div>
-      <div class="divider"></div>
+
+      <div class="produto-actions">
+        <button class="btn secondary" (click)="abrirModalEdit(produto)">
+          ✏️
+        </button>
+        <button class="btn danger" (click)="abrirModalDelete(produto)">
+          🗑️
+        </button>
+      </div>
     </div>
   </div>
+
+  <app-modal-edit
+    [isOpen]="modalEditOpen"
+    [title]="'Editar ' + (selectedProduto?.descricao || '')"
+    (close)="fecharModais()"
+    (confirm)="formEdit.valid && confirmarEdicao(formEdit.value)"
+  >
+    <form [formGroup]="formEdit" class="form-edit">
+      <label>
+        Descrição
+        <input
+          type="text"
+          formControlName="descricao"
+          placeholder="Ex: Coca-Cola 350ml"
+        />
+      </label>
+
+      <label>
+        Preço
+        <input
+          type="number"
+          step="0.01"
+          formControlName="preco"
+          placeholder="0,00"
+        />
+      </label>
+
+      <label>
+        Número
+        <input
+          type="number"
+          formControlName="numero"
+          placeholder="Código interno"
+        />
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="ativo" />
+        Ativo
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="adicional" />
+        Adicional
+      </label>
+    </form>
+  </app-modal-edit>
+
+  <app-modal-delete
+    [isOpen]="modalDeleteOpen"
+    (close)="fecharModais()"
+    (confirm)="confirmarExclusao()"
+  >
+    <div *ngIf="selectedProduto">
+      <p>
+        Deseja realmente excluir <strong>{{ selectedProduto.descricao }}</strong
+        >?
+      </p>
+      <p class="warning">Esta ação não pode ser desfeita!</p>
+    </div>
+  </app-modal-delete>
 </section>
