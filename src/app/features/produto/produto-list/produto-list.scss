@@ -1,4 +1,4 @@
-@use '../../../../styles.scss' as * ;
+@use "../../../../styles.scss" as *;
 
 .produto-list {
   padding: 16px;
@@ -76,6 +76,16 @@
           padding: 4px 8px;
           border-radius: 8px;
           font-weight: 500;
+
+          &.success {
+            background-color: $cor-destaque-verde;
+            color: #fff;
+          }
+
+          &.inactive {
+            background-color: #f1baba;
+            color: #374151;
+          }
         }
       }
     }
@@ -83,6 +93,19 @@
     .produto-actions {
       display: flex;
       gap: 8px;
+
+      .acoes {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+
+        .btn.small {
+          padding: 6px 12px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          border-radius: 6px;
+        }
+      }
     }
   }
 
@@ -101,8 +124,8 @@
       gap: 4px;
     }
 
-    input[type='text'],
-    input[type='number'] {
+    input[type="text"],
+    input[type="number"] {
       padding: 8px 12px;
       border: 1px solid $cor-barra-inferior;
       border-radius: $border-radius;
@@ -116,10 +139,57 @@
     }
 
     .checkbox {
-      flex-direction: row;
-      align-items: center;
+      display: flex;
+      align-items: initial;
       gap: 8px;
+      cursor: pointer;
       font-weight: 500;
+      font-size: 0.9rem;
+      user-select: none;
+      position: relative;
+
+      input {
+        display: none;
+      }
+
+      .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #d1d5db;
+        border-radius: 6px;
+        display: inline-block;
+        position: relative;
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          top: 2px;
+          left: 6px;
+          opacity: 0;
+          transform: rotate(45deg) scale(0.8);
+          transition: all 0.2s ease-in-out;
+        }
+      }
+
+      input:checked + .checkmark {
+        background-color: $cor-destaque-verde;
+        border-color: $cor-destaque-verde;
+
+        &::after {
+          opacity: 1;
+          transform: rotate(45deg) scale(1);
+        }
+      }
+
+      .label-text {
+        color: #374151;
+      }
     }
   }
 
@@ -137,10 +207,10 @@
       justify-content: flex-end;
     }
   }
-}
 
-.warning {
-  color: $cor-borda-vermelha;
-  font-weight: 500;
-  margin-top: 8px;
+  .warning {
+    color: $cor-borda-vermelha;
+    font-weight: 500;
+    margin-top: 8px;
+  }
 }

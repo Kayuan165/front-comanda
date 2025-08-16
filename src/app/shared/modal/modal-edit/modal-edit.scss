@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
-
   animation: fadeIn 0.2s ease-in-out;
 }
 
@@ -14,7 +13,7 @@
   background: #ffffff;
   border-radius: 12px;
   width: 90%;
-  max-width: 420px;
+  max-width: 500px;
   padding: 0;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -88,33 +87,33 @@
         background-color: #0069d9;
       }
     }
+
+    &.btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+
+      &:hover {
+        background-color: #c82333;
+      }
+    }
   }
 }
 
+/* Animações */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
+/* Responsividade */
 @media (min-width: 480px) {
   .modal-container {
-    width: 100%;
-    max-width: 500px;
     border-radius: 12px;
     animation: slideUpCenter 0.25s ease-out;
   }
@@ -123,31 +122,19 @@
 @media (max-width: 480px) {
   .modal-container {
     width: 100%;
-    max-height: 50%;
+    max-height: 55%;
     border-radius: 12px 12px 0 0;
-    margin-top: auto;
+    margin-top: auto; /* fica grudado embaixo */
     animation: slideUpHalf 0.25s ease-out;
   }
 }
 
 @keyframes slideUpCenter {
-  from {
-    transform: translateY(50%);
-    opacity: 0.5;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(50%); opacity: 0.5; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes slideUpHalf {
-  from {
-    transform: translateY(100%);
-    opacity: 0.5;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(100%); opacity: 0.5; }
+  to { transform: translateY(0); opacity: 1; }
 }

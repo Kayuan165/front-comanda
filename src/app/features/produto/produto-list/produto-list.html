@@ -12,16 +12,24 @@
         <div class="produto-body">
           <p class="produto-preco">{{ produto.preco | currencyBr }}</p>
           <span *ngIf="produto.adicional" class="badge">Adicional</span>
+          <span
+            class="badge"
+            [ngClass]="produto.ativo ? 'success' : 'inactive'"
+          >
+            {{ produto.ativo ? "Ativo" : "Inativo" }}
+          </span>
         </div>
       </div>
 
       <div class="produto-actions">
-        <button class="btn secondary" (click)="abrirModalEdit(produto)">
-          ✏️
-        </button>
-        <button class="btn danger" (click)="abrirModalDelete(produto)">
-          🗑️
-        </button>
+        <div class="acoes">
+          <button class="btn secondary small" (click)="abrirModalEdit(produto)">
+            Editar
+          </button>
+          <button class="btn danger small" (click)="abrirModalDelete(produto)">
+            Excluir
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -63,12 +71,14 @@
 
       <label class="checkbox">
         <input type="checkbox" formControlName="ativo" />
-        Ativo
+        <span class="checkmark"></span>
+        <span class="label-text">Produto Ativo</span>
       </label>
 
       <label class="checkbox">
         <input type="checkbox" formControlName="adicional" />
-        Adicional
+        <span class="checkmark"></span>
+        <span class="label-text">Produto Adicional</span>
       </label>
     </form>
   </app-modal-edit>

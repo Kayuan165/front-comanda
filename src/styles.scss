@@ -11,3 +11,40 @@ $padding-card: 16px;
 $margin-card: 10px;
 $shadow-card: 0 2px 5px rgba(0, 0, 0, 0.05);
 
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+
+  &.small {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+}
+
+/* Variações */
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn.secondary {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.btn.danger {
+  background: #f44336;
+  color: #fff;
+}
