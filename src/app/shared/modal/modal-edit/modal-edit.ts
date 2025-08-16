@@ -4,6 +4,7 @@ import {
   computed,
   EventEmitter,
   Input,
+  Output,
   Signal,
   signal,
 } from '@angular/core';
@@ -11,29 +12,19 @@ import {
 @Component({
   selector: 'app-modal-edit',
   imports: [CommonModule],
+  standalone: true,
   templateUrl: './modal-edit.html',
   styleUrl: './modal-edit.scss',
 })
 export class ModalEdit {
-  private _isOpen = signal(false);
 
-  @Input()
-  set isOpen(value: boolean) {
-    this._isOpen.set(value);
-  }
-
-  get isOpen(): boolean {
-    return this._isOpen();
-  }
-
+  @Input() isOpen: boolean = false;
   @Input() title: string = '';
-  @Input() close = new EventEmitter<void>();
-  @Input() confirm = new EventEmitter<void>();
 
-  isVisible: Signal<boolean> = computed(() => this._isOpen());
+  @Output() close = new EventEmitter<void>();
+  @Output() confirm = new EventEmitter<void>();
 
   closeModal(): void {
-    this._isOpen.set(false);
     this.close.emit();
   }
 

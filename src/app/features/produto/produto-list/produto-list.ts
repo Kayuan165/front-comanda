@@ -38,6 +38,7 @@ export class ProdutoList implements OnInit {
 
   constructor(private produtoService: ProdutoService, private fb: FormBuilder) {
     this.formEdit = this.fb.group({
+      _id: [''],
       descricao: [''],
       preco: [0, [Validators.min(0)]],
       numero: [0, [Validators.min(0)]],
@@ -82,16 +83,16 @@ export class ProdutoList implements OnInit {
   }
 
   confirmarEdicao(produto: Produto): void {
-    this.produtoService.editarProduto(produto).subscribe({
-      next: () => this.fecharModais(),
-      error: () => (this.error = 'Erro ao editar produto.'),
-    });
+      this.produtoService.editarProduto(produto).subscribe({
+        next: () => this.fecharModais(),
+        error: () => (this.error = 'Erro ao editar produto.'),
+      });
   }
 
   confirmarExclusao(): void {
     if (this.selectedProduto) {
       this.produtoService
-        .deletarProduto(Number(this.selectedProduto.id))
+        .deletarProduto(this.selectedProduto._id)
         .subscribe({
           next: () => this.fecharModais(),
           error: () => (this.error = 'Erro ao excluir produto.'),

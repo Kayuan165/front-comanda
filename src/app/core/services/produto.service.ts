@@ -13,11 +13,11 @@ export class ProdutoService {
     return this.http.get<Produto[]>(`${this.apiUrl}/list`);
   }
 
-  deletarProduto(id: number): Observable<any> {
+  deletarProduto(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 
   editarProduto(produto: Produto): Observable<Produto> {
-    return this.http.patch<Produto>(`${this.apiUrl}/update/${produto.id}`, produto);
+    return this.http.patch<Produto>(`${this.apiUrl}/update/:${produto._id}`, produto);
   }
 }
