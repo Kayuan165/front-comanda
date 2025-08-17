@@ -1,0 +1,15 @@
+<nav class="bottom-nav">
+  @for (it of items; track it.route) {
+    <a
+      class="nav-item"
+      [routerLink]="it.route"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #rla="routerLinkActive"
+      [attr.aria-current]="rla.isActive ? 'page' : null"
+      [attr.aria-label]="it.label"
+    >
+      <small class="label">{{ it.label }}</small>
+    </a>
+  }
+</nav>

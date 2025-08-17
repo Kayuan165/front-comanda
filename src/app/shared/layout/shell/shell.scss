@@ -1,0 +1,14 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.app-content {
+  flex: 1 1 auto;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  margin-top: 56px;   /* altura do topbar */
+  margin-bottom: 56px;/* altura da bottom-nav */
+  overflow: auto;
+}

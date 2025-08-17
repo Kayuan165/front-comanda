@@ -1,0 +1,27 @@
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(56px + 12px + env(safe-area-inset-bottom)); /* acima da bottom-nav */
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(37,99,235,.25);
+  transition: transform .15s ease, box-shadow .15s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  .plus {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 600;
+    transform: translateY(-1px);
+  }
+
+  &:hover { box-shadow: 0 10px 24px rgba(37,99,235,.3); transform: translateY(-1px); }
+  &:active { transform: scale(.96); }
+}

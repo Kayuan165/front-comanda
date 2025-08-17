@@ -1,0 +1,15 @@
+<div class="app-shell">
+  <app-top-navbar></app-top-navbar>
+
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  @if (showBottomNav()) {
+    <app-bottom-nav [items]="items"></app-bottom-nav>
+  }
+
+  @if (fab()) {
+    <app-fab [config]="fab()!"></app-fab>
+  }
+</div>
