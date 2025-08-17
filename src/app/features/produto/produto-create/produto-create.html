@@ -1,0 +1,113 @@
+<div class="container">
+  <h2>Criar Novo Produto</h2>
+
+  <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()" novalidate>
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <input
+        type="text"
+        id="descricao"
+        formControlName="descricao"
+        class="form-control"
+        [class.is-invalid]="
+          descricao.invalid && (descricao.dirty || descricao.touched)
+        "
+      />
+      <div
+        *ngIf="descricao.invalid && (descricao.dirty || descricao.touched)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="descricao.errors && descricao.errors['required']">
+          Descrição é obrigatória
+        </div>
+        <div *ngIf="descricao.errors && descricao.errors['minlength']">
+          Mínimo de 3 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="preco">Preço</label>
+      <input
+        type="number"
+        id="preco"
+        formControlName="preco"
+        class="form-control"
+        step="0.01"
+        [class.is-invalid]="preco.invalid && (preco.dirty || preco.touched)"
+      />
+      <div
+        *ngIf="preco.invalid && (preco.dirty || preco.touched)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="preco.errors && preco.errors['required']">
+          Preço é obrigatório
+        </div>
+        <div *ngIf="preco.errors && preco.errors['min']">
+          O preço não pode ser negativo
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="numero">Número</label>
+      <input
+        type="number"
+        id="numero"
+        formControlName="numero"
+        class="form-control"
+        [class.is-invalid]="numero.invalid && (numero.dirty || numero.touched)"
+      />
+      <div
+        *ngIf="numero.invalid && (numero.dirty || numero.touched)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="numero.errors && numero.errors['required']">
+          Número é obrigatório
+        </div>
+        <div *ngIf="numero.errors && numero.errors['min']">
+          O número não pode ser negativo
+        </div>
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input
+        type="checkbox"
+        id="ativo"
+        formControlName="ativo"
+        class="form-check-input"
+      />
+      <label for="ativo" class="form-check-label">Ativo</label>
+    </div>
+
+    <div class="form-check mb-3">
+      <input
+        type="checkbox"
+        id="adicional"
+        formControlName="adicional"
+        class="form-check-input"
+      />
+      <label for="adicional" class="form-check-label">Adicional</label>
+    </div>
+
+    <div class="button-group">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="isLoading || produtoForm.invalid"
+      >
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+        {{ isLoading ? "Salvando..." : "Salvar" }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -31,6 +31,16 @@ export const routes: Routes = [
           fab: { label: 'Novo produto', route: '/produtos/novo', icon: 'add' },
         },
       },
+      {
+        path: 'produtos/novo',
+        loadComponent: () =>
+          import('./features/produto/produto-create/produto-create').then(
+            (m) => m.ProdutoCreate
+          ),
+        data: {
+          bottomNav: true,
+        },
+      },
       // {
       //   path: 'pedidos',
       //   loadComponent: () =>

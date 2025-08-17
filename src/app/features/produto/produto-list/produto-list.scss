@@ -178,8 +178,8 @@
       }
 
       input:checked + .checkmark {
-        background-color: $cor-destaque-verde;
-        border-color: $cor-destaque-verde;
+        background-color: #2563eb;
+        border-color: #2563eb;
 
         &::after {
           opacity: 1;

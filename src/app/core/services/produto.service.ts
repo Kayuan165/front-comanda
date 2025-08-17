@@ -18,6 +18,13 @@ export class ProdutoService {
   }
 
   editarProduto(produto: Produto): Observable<Produto> {
-    return this.http.patch<Produto>(`${this.apiUrl}/update/:${produto._id}`, produto);
+    return this.http.patch<Produto>(
+      `${this.apiUrl}/update/:${produto._id}`,
+      produto
+    );
+  }
+
+  criarProduto(produto: Produto): Observable<Produto> {
+    return this.http.post<Produto>(`${this.apiUrl}/create`, produto);
   }
 }
