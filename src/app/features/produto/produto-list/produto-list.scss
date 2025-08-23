@@ -1,45 +1,70 @@
-@use "../../../../styles.scss" as *;
-
 .produto-list {
   padding: 16px;
-  background-color: $cor-fundo;
+  background-color: #f8f9fa;
   min-height: 100vh;
 
   .status-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     text-align: center;
     font-size: 1rem;
-    color: $cor-texto-secundario;
+    color: #6b7280;
     padding: 12px;
 
     &.error {
-      color: $cor-borda-vermelha;
+      color: #dc2626;
     }
   }
 
   .produtos-container {
     display: flex;
     flex-direction: column;
-    gap: $margin-card;
+    gap: 16px;
   }
 
   .produto-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: $cor-card;
-    border-radius: $border-radius;
-    padding: $padding-card;
-    box-shadow: $shadow-card;
-    transition: background 0.2s ease-in-out;
+    border-left: 4px solid;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
 
-    &:hover {
-      background-color: lighten($cor-fundo, 2%);
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    &.metric-card--primary {
+      border-left-color: #3f51b5;
+    }
+
+    &.metric-card--success {
+      border-left-color: #4caf50;
+    }
+
+    &.metric-card--warning {
+      border-left-color: #ff9800;
+    }
+
+    &.metric-card--danger {
+      border-left-color: #f44336;
+    }
+
+    .mat-mdc-card-content {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
     }
 
     .produto-info {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      flex: 1;
 
       .produto-header {
         display: flex;
@@ -53,7 +78,7 @@
         .produto-descricao {
           font-size: 1rem;
           font-weight: 600;
-          color: $cor-texto-principal;
+          color: #111827;
           margin: 0;
         }
       }
@@ -66,7 +91,7 @@
         .produto-preco {
           font-size: 1.1rem;
           font-weight: 700;
-          color: $cor-destaque-verde;
+          color: #059669;
         }
 
         .badge {
@@ -78,7 +103,7 @@
           font-weight: 500;
 
           &.success {
-            background-color: $cor-destaque-verde;
+            background-color: #059669;
             color: #fff;
           }
 
@@ -91,16 +116,12 @@
     }
 
     .produto-actions {
-      display: flex;
-      gap: 8px;
-
       .acoes {
         display: flex;
-        gap: 10px;
-        margin-top: 8px;
+        gap: 8px;
 
-        .btn.small {
-          padding: 6px 12px;
+        .small {
+          min-width: 80px;
           font-size: 0.85rem;
           font-weight: 500;
           border-radius: 6px;
@@ -109,108 +130,56 @@
     }
   }
 
-  /* Formulário de edição */
   .form-edit {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 
-    label {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: $cor-texto-principal;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    input[type="text"],
-    input[type="number"] {
-      padding: 8px 12px;
-      border: 1px solid $cor-barra-inferior;
-      border-radius: $border-radius;
-      font-size: 0.9rem;
-      transition: border-color 0.2s ease-in-out;
-
-      &:focus {
-        outline: none;
-        border-color: $cor-destaque-verde;
-      }
+    .full-width {
+      width: 100%;
     }
 
     .checkbox {
-      display: flex;
-      align-items: initial;
-      gap: 8px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
-      user-select: none;
-      position: relative;
-
-      input {
-        display: none;
+      .mdc-form-field {
+        align-items: center;
       }
 
-      .checkmark {
-        width: 20px;
-        height: 20px;
-        border: 2px solid #d1d5db;
-        border-radius: 6px;
-        display: inline-block;
-        position: relative;
-        transition: all 0.2s ease-in-out;
-        background: #fff;
-
-        &::after {
-          content: "";
-          position: absolute;
-          width: 5px;
-          height: 10px;
-          border: solid white;
-          border-width: 0 2px 2px 0;
-          top: 2px;
-          left: 6px;
-          opacity: 0;
-          transform: rotate(45deg) scale(0.8);
-          transition: all 0.2s ease-in-out;
-        }
-      }
-
-      input:checked + .checkmark {
-        background-color: #2563eb;
-        border-color: #2563eb;
-
-        &::after {
-          opacity: 1;
-          transform: rotate(45deg) scale(1);
-        }
-      }
-
-      .label-text {
+      .mdc-label {
+        font-size: 0.9rem;
         color: #374151;
       }
     }
   }
 
-  /* Mobile */
   @media (max-width: 600px) {
     .produto-card {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-    }
+      .mat-mdc-card-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
 
-    .produto-actions {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
+      .produto-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 
   .warning {
-    color: $cor-borda-vermelha;
+    color: #dc2626;
     font-weight: 500;
     margin-top: 8px;
   }
+}
+
+.success-snackbar {
+  background-color: #059669 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #dc2626 !important;
+  color: white !important;
 }

@@ -9,10 +9,27 @@ import {
 import { ProdutoService } from '../../../core/services/produto.service';
 import { Produto } from '../../../core/models/produto.interface';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produto-create',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+  ],
   standalone: true,
   templateUrl: './produto-create.html',
   styleUrl: './produto-create.scss',
@@ -23,7 +40,11 @@ export class ProdutoCreate {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private produtoService: ProdutoService, private fb: FormBuilder) {
+  constructor(
+    private produtoService: ProdutoService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {
     this.produtoForm = this.fb.group({
       descricao: ['', [Validators.required, Validators.minLength(3)]],
       preco: [0, [Validators.required, Validators.min(0)]],
@@ -47,13 +68,19 @@ export class ProdutoCreate {
 
     this.produtoService.criarProduto(produto).subscribe({
       next: () => {
-        this.successMessage = 'Produto cadastrado com sucesso!';
+        this.snackBar.open('Produto cadastrado com sucesso!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
         this.isLoading = false;
-        this.produtoForm.reset();
+        this.produtoForm.reset({ ativo: true, adicional: false });
       },
       error: (err) => {
-        this.errorMessage =
-          err.error?.message || 'Erro ao cadastrar o produto!';
+        this.snackBar.open(
+          err.error?.message || 'Erro ao cadastrar o produto!',
+          'Fechar',
+          { duration: 3000, panelClass: ['error-snackbar'] }
+        );
         this.isLoading = false;
       },
     });

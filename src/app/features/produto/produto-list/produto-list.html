@@ -1,37 +1,59 @@
 <section class="produto-list">
-  <div class="status-message" *ngIf="loading">Carregando produtos...</div>
-  <div class="status-message error" *ngIf="error">{{ error }}</div>
+  <div class="status-message" *ngIf="loading">
+    <mat-spinner diameter="24"></mat-spinner>
+    <span>Carregando produtos...</span>
+  </div>
+
+  <div class="status-message error" *ngIf="error">
+    {{ error }}
+  </div>
 
   <div class="produtos-container" *ngIf="!loading && !error">
-    <div class="produto-card" *ngFor="let produto of produtos">
-      <div class="produto-info">
-        <div class="produto-header">
-          <span class="produto-icone">📦</span>
-          <h3 class="produto-descricao">{{ produto.descricao }}</h3>
+    <mat-card
+      class="produto-card"
+      *ngFor="let produto of produtos"
+      [class]="'metric-card--' + (produto.ativo ? 'primary' : 'danger')"
+    >
+      <mat-card-content>
+        <div class="produto-info">
+          <div class="produto-header">
+            <span class="produto-icone">📦</span>
+            <h3 class="produto-descricao">{{ produto.descricao }}</h3>
+          </div>
+          <div class="produto-body">
+            <p class="produto-preco">{{ produto.preco | currencyBr }}</p>
+            <span *ngIf="produto.adicional" class="badge">Adicional</span>
+            <span
+              class="badge"
+              [ngClass]="produto.ativo ? 'success' : 'inactive'"
+            >
+              {{ produto.ativo ? "Ativo" : "Inativo" }}
+            </span>
+          </div>
         </div>
-        <div class="produto-body">
-          <p class="produto-preco">{{ produto.preco | currencyBr }}</p>
-          <span *ngIf="produto.adicional" class="badge">Adicional</span>
-          <span
-            class="badge"
-            [ngClass]="produto.ativo ? 'success' : 'inactive'"
-          >
-            {{ produto.ativo ? "Ativo" : "Inativo" }}
-          </span>
-        </div>
-      </div>
 
-      <div class="produto-actions">
-        <div class="acoes">
-          <button class="btn secondary small" (click)="abrirModalEdit(produto)">
-            Editar
-          </button>
-          <button class="btn danger small" (click)="abrirModalDelete(produto)">
-            Excluir
-          </button>
+        <div class="produto-actions">
+          <div class="acoes">
+            <button
+              mat-button
+              color="primary"
+              class="small"
+              (click)="abrirModalEdit(produto)"
+            >
+              Editar
+            </button>
+            <button
+              mat-button
+              color="warn"
+              class="small"
+              (click)="abrirModalDelete(produto)"
+            >
+              Excluir
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <app-modal-edit
@@ -41,45 +63,44 @@
     (confirm)="formEdit.valid && confirmarEdicao(formEdit.value)"
   >
     <form [formGroup]="formEdit" class="form-edit">
-      <label>
-        Descrição
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
         <input
+          matInput
           type="text"
           formControlName="descricao"
           placeholder="Ex: Coca-Cola 350ml"
         />
-      </label>
+      </mat-form-field>
 
-      <label>
-        Preço
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Preço</mat-label>
         <input
+          matInput
           type="number"
           step="0.01"
           formControlName="preco"
           placeholder="0,00"
         />
-      </label>
+      </mat-form-field>
 
-      <label>
-        Número
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Número</mat-label>
         <input
+          matInput
           type="number"
           formControlName="numero"
           placeholder="Código interno"
         />
-      </label>
+      </mat-form-field>
 
-      <label class="checkbox">
-        <input type="checkbox" formControlName="ativo" />
-        <span class="checkmark"></span>
-        <span class="label-text">Produto Ativo</span>
-      </label>
+      <mat-checkbox formControlName="ativo" class="checkbox">
+        Produto Ativo
+      </mat-checkbox>
 
-      <label class="checkbox">
-        <input type="checkbox" formControlName="adicional" />
-        <span class="checkmark"></span>
-        <span class="label-text">Produto Adicional</span>
-      </label>
+      <mat-checkbox formControlName="adicional" class="checkbox">
+        Produto Adicional
+      </mat-checkbox>
     </form>
   </app-modal-edit>
 
