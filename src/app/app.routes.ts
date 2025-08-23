@@ -12,14 +12,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./shared/layout/shell/shell').then((m) => m.Shell),
     children: [
-      // {
-      //   path: 'home',
-      //   loadComponent: () =>
-      //     import('./features/pages/home/home').then(
-      //       (m) => m.Home
-      //     ),
-      //   data: { bottomNav: true }, // sem FAB
-      // },
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./features/pages/home/home').then(
+            (m) => m.Home
+          ),
+        data: { bottomNav: true }, // sem FAB
+      },
       {
         path: 'produtos',
         loadComponent: () =>

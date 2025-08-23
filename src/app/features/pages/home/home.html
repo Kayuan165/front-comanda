@@ -1,1 +1,20 @@
-<p>home works!</p>
+<div class="home-container">
+  <div class="home-header">
+    <h1>Dashboard</h1>
+    <button mat-icon-button (click)="recarregar()" aria-label="Recarregar">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <div class="metrics-grid">
+    <app-cards
+      title="Pedidos do Dia"
+      [value]="pedidosDoDia"
+      [loading]="loadingPedidos"
+      [error]="errorPedidos"
+      icon="shopping_cart"
+      color="primary"
+    >
+    </app-cards>
+  </div>
+</div>

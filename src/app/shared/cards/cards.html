@@ -1,1 +1,22 @@
-<p>cards works!</p>
+<div class="metric-card" [class]="'metric-card--' + color">
+  <div class="metric-card__content">
+    <div class="metric-card__header">
+      <span class="metric-card__title">{{ title }}</span>
+      <span class="metric-card__icon" *ngIf="icon">
+        <i class="material-icons">{{ icon }}</i>
+      </span>
+    </div>
+
+    <div class="metric-card__value" *ngIf="!loading && !error">
+      {{ value | number }}
+    </div>
+
+    <div class="metric-card__loading" *ngIf="loading">
+      <div class="metric-card__skeleton"></div>
+    </div>
+
+    <div class="metric-card__error" *ngIf="error && !loading">
+      <span>Erro ao carregar</span>
+    </div>
+  </div>
+</div>
