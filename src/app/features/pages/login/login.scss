@@ -1,45 +1,22 @@
-
-$bg: #eaf9fb;
-$card-bg: #fff9f2;
 $accent: #e26357;
 $text: #22373c;
-$muted: #7f9698;
-$radius: 14px;
 
 .login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $bg;
+  background: white;
   padding: 16px;
 }
 
-.card {
-  background: $card-bg;
-  border-radius: $radius;
-  padding: 24px;
-  position: relative;
+.login-card {
   width: 100%;
   max-width: 360px;
+  padding: 24px;
+  border-radius: 14px;
+  background: #ffffff;
   box-shadow: 0 4px 8px rgba(226, 99, 87, 0.06);
-
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   left: 10px;
-  //   right: 10px;
-  //   height: 10px;
-  //   bottom: -10px;
-  //   border-radius: 8px;
-  //   background: linear-gradient(
-  //     180deg,
-  //     rgba(226, 99, 87, 0.14),
-  //     rgba(226, 99, 87, 0.06)
-  //   );
-  //   transform: translateY(6px);
-  //   pointer-events: none;
-  // }
 }
 
 .login-title {
@@ -50,65 +27,30 @@ $radius: 14px;
   text-align: center;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+.form-field {
+  width: 100%;
   margin-bottom: 18px;
-
-  label {
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: $text;
-  }
-
-  input {
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(34, 55, 60, 0.1);
-    outline: none;
-    font-size: 0.95rem;
-
-    &:focus {
-      border-color: $accent;
-      box-shadow: 0 0 0 2px rgba(226, 99, 87, 0.2);
-    }
-  }
-
-  .error {
-    font-size: 0.78rem;
-    color: darken($accent, 10%);
-    margin-top: 4px;
-  }
 }
 
-button {
+button.submit-button {
   width: 100%;
-  background: $accent;
-  color: white;
   font-weight: 600;
-  border: none;
   padding: 12px;
   font-size: 1rem;
   border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-
-  &:hover {
-    background: darken($accent, 5%);
-  }
+  background: $accent !important;
+  color: white !important;
 
   &:disabled {
     opacity: 0.6;
-    cursor: not-allowed;
   }
 }
 
 .error-message {
-  background: rgba(226, 99, 87, 0.08);
-  color: darken($accent, 10%);
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-size: 0.85rem;
+  color: #f44336;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #ffebee;
+  border-radius: 4px;
   text-align: center;
 }

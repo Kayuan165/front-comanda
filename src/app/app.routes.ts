@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -11,13 +12,12 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./shared/layout/shell/shell').then((m) => m.Shell),
+    canActivate: [authGuard],
     children: [
       {
         path: 'home',
         loadComponent: () =>
-          import('./features/pages/home/home').then(
-            (m) => m.Home
-          ),
+          import('./features/pages/home/home').then((m) => m.Home),
         data: { bottomNav: true }, // sem FAB
       },
       {
