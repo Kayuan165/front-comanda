@@ -5,7 +5,7 @@ import { Produto } from '../models/produto.interface';
 import { CreatePedidoDto } from '../models/pedido.interface';
 
 @Injectable({ providedIn: 'root' })
-export class ProdutoService {
+export class PedidoService {
   private apiUrl = 'http://localhost:3000/pedidos';
 
   constructor(private http: HttpClient) {}

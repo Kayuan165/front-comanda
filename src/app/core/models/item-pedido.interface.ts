@@ -7,4 +7,5 @@ export interface ItemPedido {
   precoUnitario: number;
   adicionais?: AdicionalItem[];
   nome: string;
+  observacao?: string;
 }

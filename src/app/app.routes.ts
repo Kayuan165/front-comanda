@@ -41,17 +41,16 @@ export const routes: Routes = [
           bottomNav: true,
         },
       },
-      // {
-      //   path: 'pedidos',
-      //   loadComponent: () =>
-      //     import(
-      //       './features/pages/pedido/pedido-list/pedido-list'
-      //     ).then((m) => m.PedidoList),
-      //   data: {
-      //     bottomNav: true,
-      //     fab: { label: 'Novo pedido', route: '/pedidos/novo', icon: 'add' },
-      //   },
-      // },
+      {
+        path: 'pedidos',
+        loadComponent: () =>
+          import(
+            './features/pedidos/pedidos-create/pedidos-create'
+          ).then((m) => m.PedidosCreate),
+        data: {
+          bottomNav: true,
+        },
+      },
       // {
       //   path: 'relatorios',
       //   loadComponent: () =>

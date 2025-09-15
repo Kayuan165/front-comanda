@@ -8,7 +8,7 @@ import { isPlatformBrowser } from '@angular/common';
 export interface LoginResponse {
   token: string;
   user?: {
-    id: string;
+    _id: string;
     email: string;
     name: string;
   };
@@ -68,6 +68,11 @@ export class AuthService {
   getUser(): any {
     const user = this.storageService.getItem('user');
     return user ? JSON.parse(user) : null;
+  }
+
+  getUserId(): string | null {
+    const user = this.getUser();
+    return user ? user._id : null;
   }
 
   private handleLoginSuccess(response: LoginResponse): void {

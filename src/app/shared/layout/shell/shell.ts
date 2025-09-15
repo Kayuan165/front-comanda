@@ -24,6 +24,7 @@ export class Shell {
   items: BottomNavItem[] = [
     { label: 'Dashboard', route: '/home' },
     { label: 'Produtos', route: '/produtos' },
+    { label: 'Pedidos', route: '/pedidos' },
   ];
 
   private showBottomNavSig = signal<boolean>(true);

@@ -1,0 +1,347 @@
+<div class="container">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Novo Pedido</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
+        <div class="form-content">
+          <!-- Informações do Cliente -->
+          <div class="section">
+            <h3 class="section-title">Informações do Cliente</h3>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome do Cliente</mat-label>
+              <input
+                matInput
+                formControlName="cliente"
+                placeholder="Digite o nome do cliente"
+              />
+              <mat-error
+                *ngIf="
+                  pedidoForm.get('cliente')?.invalid &&
+                  pedidoForm.get('cliente')?.touched
+                "
+              >
+                Nome do cliente é obrigatório
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Status e Agendamento -->
+          <div class="section">
+            <h3 class="section-title">Detalhes do Pedido</h3>
+
+            <div class="status-options">
+              <mat-radio-group formControlName="status" class="radio-group">
+                <mat-radio-button [value]="true" class="radio-button">
+                  <mat-icon>restaurant</mat-icon>
+                  <span>Comer no Local</span>
+                </mat-radio-button>
+                <mat-radio-button [value]="false" class="radio-button">
+                  <mat-icon>takeout_dining</mat-icon>
+                  <span>Levar Embora</span>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="checkbox-section">
+              <mat-checkbox formControlName="agendado" class="checkbox-item">
+                Agendar para retirada posterior
+              </mat-checkbox>
+            </div>
+
+            <mat-form-field
+              *ngIf="pedidoForm.get('agendado')?.value"
+              appearance="outline"
+              class="full-width"
+            >
+              <mat-label>Horário para Retirada</mat-label>
+              <input
+                matInput
+                type="datetime-local"
+                formControlName="horarioAgendamento"
+              />
+              <mat-error
+                *ngIf="
+                  pedidoForm.get('horarioAgendamento')?.invalid &&
+                  pedidoForm.get('horarioAgendamento')?.touched
+                "
+              >
+                Horário de agendamento é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Observações</mat-label>
+              <textarea
+                matInput
+                formControlName="observacao"
+                placeholder="Observações adicionais sobre o pedido"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+          </div>
+
+          <!-- Itens do Pedido -->
+          <div class="section">
+            <h3 class="section-title">Itens do Pedido</h3>
+
+            <div class="items-container" formArrayName="itens">
+              <div
+                *ngFor="let item of itensFormArray.controls; let i = index"
+                [formGroupName]="i"
+                class="item-card"
+              >
+                <div class="item-header">
+                  <h4 class="item-name">{{ item.get("nome")?.value }}</h4>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    (click)="removerItem(i)"
+                    class="remove-button"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+
+                <div class="item-details">
+                  <div class="quantity-control">
+                    <button
+                      type="button"
+                      mat-icon-button
+                      (click)="
+                        atualizarQuantidade(
+                          i,
+                          item.get('quantidade')?.value - 1
+                        )
+                      "
+                      [disabled]="item.get('quantidade')?.value <= 1"
+                    >
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                    <span class="quantity">{{
+                      item.get("quantidade")?.value
+                    }}</span>
+                    <button
+                      type="button"
+                      mat-icon-button
+                      (click)="
+                        atualizarQuantidade(
+                          i,
+                          item.get('quantidade')?.value + 1
+                        )
+                      "
+                    >
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+
+                  <div class="price-info">
+                    <span class="unit-price"
+                      >R$
+                      {{
+                        item.get("precoUnitario")?.value | number : "1.2-2"
+                      }}</span
+                    >
+                    <span class="total-price">
+                      Total: R$
+                      {{
+                        item.get("quantidade")?.value *
+                          item.get("precoUnitario")?.value | number : "1.2-2"
+                      }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              mat-stroked-button
+              class="add-item-button"
+              (click)="adicionarItem()"
+            >
+              <mat-icon>add</mat-icon>
+              Adicionar Item
+            </button>
+          </div>
+
+          <!-- Formas de Pagamento -->
+          <div class="section">
+            <h3 class="section-title">Formas de Pagamento</h3>
+
+            <div class="payment-container" formArrayName="pagamentos">
+              <div
+                *ngFor="
+                  let pagamento of pagamentosFormArray.controls;
+                  let i = index
+                "
+                [formGroupName]="i"
+                class="payment-card"
+              >
+                <div class="payment-header">
+                  <h4 class="payment-title">Pagamento {{ i + 1 }}</h4>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    (click)="removerFormaPagamento(i)"
+                    [disabled]="pagamentosFormArray.length <= 1"
+                    class="remove-button"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+
+                <div class="payment-fields">
+                  <mat-form-field appearance="outline" class="payment-type">
+                    <mat-label>Forma de Pagamento</mat-label>
+                    <mat-select formControlName="tipo">
+                      <mat-option
+                        *ngFor="let forma of formasPagamento"
+                        [value]="forma.value"
+                      >
+                        {{ forma.label }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="
+                        pagamento.get('tipo')?.invalid &&
+                        pagamento.get('tipo')?.touched
+                      "
+                    >
+                      Selecione uma forma de pagamento
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="payment-value">
+                    <mat-label>Valor</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      formControlName="valor"
+                      placeholder="0,00"
+                    />
+                    <span matPrefix>R$ </span>
+                    <mat-error
+                      *ngIf="
+                        pagamento.get('valor')?.invalid &&
+                        pagamento.get('valor')?.touched
+                      "
+                    >
+                      Valor é obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field
+                    *ngIf="pagamento.get('tipo')?.value === 'dinheiro'"
+                    appearance="outline"
+                    class="payment-change"
+                  >
+                    <mat-label>Troco para</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      step="0.01"
+                      formControlName="trocoPara"
+                      placeholder="0,00"
+                    />
+                    <span matPrefix>R$ </span>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              mat-stroked-button
+              class="add-payment-button"
+              (click)="adicionarFormaPagamento()"
+            >
+              <mat-icon>add</mat-icon>
+              Adicionar Forma de Pagamento
+            </button>
+          </div>
+
+          <!-- Total -->
+          <div class="section total-section">
+            <div class="total-display">
+              <div class="subtotal">
+                <span>Subtotal:</span>
+                <span>R$ {{ calcularSubtotal() | number : "1.2-2" }}</span>
+              </div>
+              <div class="total">
+                <span>Total:</span>
+                <span>R$ {{ calcularTotal() | number : "1.2-2" }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botões de Ação -->
+          <div class="button-group">
+            <button
+              type="submit"
+              mat-raised-button
+              class="submit-button"
+              [disabled]="loading"
+            >
+              <mat-progress-spinner
+                *ngIf="loading"
+                diameter="20"
+                class="spinner"
+              ></mat-progress-spinner>
+              {{ loading ? "Criando..." : "Criar Pedido" }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Modal de Seleção de Produto -->
+  <div
+    *ngIf="showProdutoSelector"
+    class="product-selector-overlay"
+    (click)="fecharSeletorProduto()"
+  >
+    <div class="product-selector-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Selecionar Produto</h3>
+        <button mat-icon-button (click)="fecharSeletorProduto()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="product-list">
+        <div *ngIf="loading" class="loading-container">
+          <mat-progress-spinner diameter="40"></mat-progress-spinner>
+          <p>Carregando produtos...</p>
+        </div>
+
+        <div *ngIf="!loading && produtos.length === 0" class="empty-state">
+          <mat-icon>inventory_2</mat-icon>
+          <p>Nenhum produto encontrado</p>
+        </div>
+
+        <div
+          *ngFor="let produto of produtos; trackBy: trackByProdutoId"
+          class="product-item"
+          (click)="selecionarProduto(produto)"
+        >
+          <div class="product-info">
+            <h4>{{ produto.descricao }}</h4>
+            <span class="product-price"
+              > R$ {{ produto.preco | currencyBr }}</span
+            >
+          </div>
+          <mat-icon class="add-icon">add_circle</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
