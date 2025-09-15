@@ -14,3 +14,16 @@ export interface Pedido {
   observacao?: string;
   status?: boolean;
 }
+
+export interface CreatePedidoDto {
+  usuario: string;
+  itens: ItemPedido[];
+  pagamentos: PagamentoItem[];
+  valorTotal: number;
+  agendado: boolean;
+  horarioAgendamento?: string;
+  pago: boolean;
+  cliente: string;
+  observacao?: string;
+  status: boolean;
+}
