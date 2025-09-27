@@ -1,0 +1,118 @@
+<section class="pedido-list">
+  <!-- Loading State -->
+  <div class="status-message" *ngIf="loading">
+    <mat-spinner diameter="24"></mat-spinner>
+    <span>Carregando pedidos...</span>
+  </div>
+
+  <!-- Error State -->
+  <div class="status-message error" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Lista de Pedidos -->
+  <div class="pedidos-container" *ngIf="!loading && !error">
+    <mat-card
+      class="pedido-card"
+      *ngFor="let pedido of pedidos"
+      [class]="'metric-card--' + getStatusClass(pedido)"
+    >
+      <mat-card-content>
+        <div class="pedido-info">
+          <!-- Header do Pedido -->
+          <div class="pedido-header">
+            <span class="pedido-icone">🛒</span>
+            <h3 class="pedido-titulo">{{ pedido.cliente }}</h3>
+          </div>
+
+          <!-- Corpo do Pedido -->
+          <div class="pedido-body">
+            <!-- Informações principais -->
+            <div class="pedido-detalhes">
+              <p class="pedido-valor" *ngIf="pedido.valorTotal">
+                <mat-icon class="info-icon">attach_money</mat-icon>
+                {{ pedido.valorTotal | currency : "BRL" : "symbol" : "1.2-2" }}
+              </p>
+
+              <p class="pedido-data" *ngIf="pedido.horarioAgendamento">
+                <mat-icon class="info-icon">schedule</mat-icon>
+                {{ formatarData(pedido.horarioAgendamento) }}
+              </p>
+
+              <p
+                class="pedido-itens"
+                *ngIf="pedido.itens && pedido.itens.length"
+              >
+                <mat-icon class="info-icon">shopping_cart</mat-icon>
+                {{ pedido.itens.length }} item(s)
+              </p>
+            </div>
+
+            <!-- Badge de Status -->
+            <div class="pedido-status">
+              <span class="badge" [ngClass]="getStatusClass(pedido)">
+                {{ getStatusPedido(pedido) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações do Pedido -->
+        <div class="pedido-actions">
+          <div class="acoes">
+            <!-- Botão Ver Detalhes -->
+            <button
+              mat-button
+              color="primary"
+              class="small compact"
+              (click)="abrirModalVizualizar(pedido)"
+            >
+              <mat-icon>visibility</mat-icon>
+              Detalhes
+            </button>
+
+            <!-- Botão Finalizar (só aparece se pedido estiver em andamento) -->
+            <button
+              mat-button
+              color="accent"
+              class="small success"
+              *ngIf="podeFinalizarPedido(pedido)"
+              (click)="finalizarPedido(pedido)"
+            >
+              <mat-icon>check_circle</mat-icon>
+              Finalizar
+            </button>
+
+            <!-- Botão Cancelar (só aparece se pedido estiver em andamento) -->
+            <button
+              mat-button
+              color="warn"
+              class="small"
+              *ngIf="podeCancelarPedido(pedido)"
+              (click)="cancelarPedido(pedido)"
+            >
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Mensagem quando não há pedidos -->
+    <div class="status-message" *ngIf="pedidos.length === 0">
+      <mat-icon>inbox</mat-icon>
+      <span>Nenhum pedido encontrado</span>
+    </div>
+  </div>
+
+  <!-- Modal de Visualização -->
+  <app-vizualizar-pedido
+    [isOpen]="modalVizualizarOpen"
+    [pedido]="selectedPedido"
+    (close)="fecharModalVizualizar()"
+    (finalizarPedido)="finalizarPedido($event)"
+    (cancelarPedido)="cancelarPedido($event)"
+  >
+  </app-vizualizar-pedido>
+</section>

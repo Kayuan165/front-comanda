@@ -8,11 +8,12 @@ export interface Pedido {
   pagamentos: PagamentoItem[];
   valorTotal: number;
   agendado?: boolean;
-  horarioAgendamento?: string;
+  horarioAgendamento?: Date;
   pago?: boolean;
   cliente: string;
   observacao?: string;
   status?: boolean;
+  finalizado?: boolean;
 }
 
 export interface CreatePedidoDto {

@@ -42,13 +42,24 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'pedidos',
+        path: 'pedidos/novo',
         loadComponent: () =>
-          import(
-            './features/pedidos/pedidos-create/pedidos-create'
-          ).then((m) => m.PedidosCreate),
+          import('./features/pedidos/pedidos-create/pedidos-create').then(
+            (m) => m.PedidosCreate
+          ),
         data: {
           bottomNav: true,
+        },
+      },
+      {
+        path: 'pedidos',
+        loadComponent: () =>
+          import('./features/pedidos/pedidos-list/pedidos-list').then(
+            (m) => m.PedidosList
+          ),
+        data: {
+          bottomNav: true,
+          fab: { label: 'Novo pedido', route: '/pedidos/novo', icon: 'add' },
         },
       },
       // {

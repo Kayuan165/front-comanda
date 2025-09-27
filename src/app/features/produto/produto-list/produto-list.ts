@@ -41,8 +41,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class ProdutoList implements OnInit {
   produtos: Produto[] = [];
-  loading = true;
-  error = '';
+  loading: boolean = true;
+  error: string = '';
 
   modalEditOpen = false;
   modalDeleteOpen = false;

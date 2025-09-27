@@ -1,0 +1,366 @@
+.pedido-list {
+  padding: 16px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  .status-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    font-size: 1rem;
+    color: #6b7280;
+    padding: 32px;
+
+    &.error {
+      color: #dc2626;
+    }
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: #9ca3af;
+    }
+  }
+
+  .pedidos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 100%;
+  }
+
+  .pedido-card {
+    border-left: 4px solid;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    // Cores baseadas no status do pedido
+    &.metric-card--warning {
+      border-left-color: #f59e0b;
+    }
+
+    &.metric-card--success {
+      border-left-color: #10b981;
+    }
+
+    &.metric-card--danger {
+      border-left-color: #ef4444;
+    }
+
+    .mat-mdc-card-content {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+
+    .pedido-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-width: 0; // Permite que o conteúdo quebre corretamente
+
+      .pedido-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+
+        .pedido-icone {
+          font-size: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        .pedido-titulo {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .pedido-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+
+        .pedido-detalhes {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          flex: 1;
+          min-width: 0;
+
+          p {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            white-space: nowrap;
+
+            .info-icon {
+              font-size: 1rem;
+              width: 1rem;
+              height: 1rem;
+              color: #6b7280;
+              flex-shrink: 0;
+            }
+
+            &.pedido-valor {
+              font-weight: 600;
+              color: #059669;
+              font-size: 1rem;
+            }
+          }
+        }
+
+        .pedido-status {
+          flex-shrink: 0;
+
+          .badge {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+
+            &.warning {
+              background-color: #fef3c7;
+              color: #92400e;
+              border: 1px solid #f59e0b;
+            }
+
+            &.success {
+              background-color: #d1fae5;
+              color: #065f46;
+              border: 1px solid #10b981;
+            }
+
+            &.danger {
+              background-color: #fee2e2;
+              color: #991b1b;
+              border: 1px solid #ef4444;
+            }
+          }
+        }
+      }
+    }
+
+    .pedido-actions {
+      flex-shrink: 0;
+
+      .acoes {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 140px;
+
+        .small {
+          min-width: 120px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 8px 16px;
+          white-space: nowrap;
+
+          mat-icon {
+            font-size: 1rem;
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+          }
+
+          &.success {
+            background-color: #10b981;
+            color: white;
+
+            &:hover {
+              background-color: #059669;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Responsividade - Mantendo o layout original
+  @media (max-width: 768px) {
+    padding: 12px;
+
+    .pedido-card {
+      .mat-mdc-card-content {
+        flex-direction: row; // Mantém lado a lado
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .pedido-info {
+        .pedido-body {
+          flex-direction: row; // Mantém lado a lado
+          gap: 12px;
+          align-items: center;
+
+          .pedido-detalhes {
+            p {
+              font-size: 0.85rem;
+
+              // Permite quebra de linha em mobile se necessário
+              white-space: normal;
+              line-height: 1.3;
+            }
+          }
+
+          .pedido-status {
+            align-self: center;
+          }
+        }
+      }
+
+      .pedido-actions {
+        .acoes {
+          flex-direction: column;
+          min-width: 120px;
+
+          .small {
+            min-width: 100px;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pedido-card {
+      .mat-mdc-card-content {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .pedido-info {
+        width: 100%;
+
+        .pedido-body {
+          justify-content: space-between;
+        }
+      }
+
+      .pedido-actions {
+        width: 100%;
+
+        .acoes {
+          flex-direction: row;
+          justify-content: flex-end;
+          gap: 8px;
+
+          .small {
+            flex: 1;
+            min-width: auto;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+
+    .pedido-card {
+      .mat-mdc-card-content {
+        padding: 12px;
+      }
+
+      .pedido-header {
+        .pedido-titulo {
+          font-size: 1rem;
+        }
+      }
+
+      .pedido-actions {
+        .acoes {
+          .small {
+            font-size: 0.75rem;
+            padding: 6px 8px;
+
+            span {
+              display: inline;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .pedido-card {
+      .pedido-info {
+        .pedido-body {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+
+          .pedido-status {
+            align-self: flex-start;
+          }
+        }
+      }
+
+      .pedido-actions {
+        .acoes {
+          flex-direction: column;
+
+          .small {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Classes para snackbars
+.success-snackbar {
+  background-color: #10b981 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #ef4444 !important;
+  color: white !important;
+}

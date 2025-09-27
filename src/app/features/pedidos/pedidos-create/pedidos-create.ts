@@ -111,7 +111,7 @@ export class PedidosCreate implements OnInit {
   carregarProdutos(): void {
     this.produtoService.getAllProdutos().subscribe({
       next: (produtos) => {
-        this.produtos = produtos;
+        this.produtos = produtos.filter((produto) => produto.ativo);
       },
       error: (err) => {
         this.snackbar.open('Erro ao carregar produtos', 'Fechar', {
@@ -273,7 +273,7 @@ export class PedidosCreate implements OnInit {
           duration: 3000,
         });
         this.pedidoForm.reset();
-        this.route.navigate(['/pedidos']);
+        this.route.navigate(['/pedidos/novo']);
       },
 
       error: (err) => {

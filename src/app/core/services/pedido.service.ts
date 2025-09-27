@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Produto } from '../models/produto.interface';
-import { CreatePedidoDto } from '../models/pedido.interface';
+import { CreatePedidoDto, Pedido } from '../models/pedido.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PedidoService {
@@ -10,20 +10,20 @@ export class PedidoService {
 
   constructor(private http: HttpClient) {}
 
-  getAllPedidos(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(`${this.apiUrl}/list`);
+  getAllPedidos(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(`${this.apiUrl}/list`);
   }
 
-  getPedidoById(id: string): Observable<Produto> {
-    return this.http.get<Produto>(`${this.apiUrl}/list:${id}`);
+  getPedidoById(id: string): Observable<Pedido> {
+    return this.http.get<Pedido>(`${this.apiUrl}/list:${id}`);
   }
 
-  criarPedido(pedido: CreatePedidoDto): Observable<Produto> {
-    return this.http.post<Produto>(`${this.apiUrl}/create`, pedido);
+  criarPedido(pedido: CreatePedidoDto): Observable<Pedido> {
+    return this.http.post<Pedido>(`${this.apiUrl}/create`, pedido);
   }
 
-  editarPedido(pedido: Produto): Observable<Produto> {
-    return this.http.patch<Produto>(
+  editarPedido(pedido: Pedido): Observable<Pedido> {
+    return this.http.patch<Pedido>(
       `${this.apiUrl}/update:${pedido._id}`,
       pedido
     );

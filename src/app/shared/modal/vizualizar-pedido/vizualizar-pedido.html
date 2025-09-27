@@ -1,0 +1,256 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header do Modal -->
+    <div class="modal-header">
+      <h2 class="modal-title">
+        <mat-icon>receipt</mat-icon>
+        Detalhes do Pedido #{{ pedido?._id }}
+      </h2>
+      <button
+        mat-icon-button
+        class="close-button"
+        (click)="onClose()"
+        aria-label="Fechar modal"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="modal-content" *ngIf="pedido">
+      <mat-card class="info-section">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>info</mat-icon>
+            Informações Gerais
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>ID do Pedido:</label>
+              <span class="info-value">#{{ pedido._id }}</span>
+            </div>
+
+            <div class="info-item" *ngIf="pedido.cliente">
+              <label>Cliente:</label>
+              <span class="info-value">{{ pedido.cliente }}</span>
+            </div>
+
+            <div class="info-item" *ngIf="pedido.horarioAgendamento">
+              <label>Data do Agendamento:</label>
+              <span class="info-value">{{
+                formatarData(pedido.horarioAgendamento)
+              }}</span>
+            </div>
+
+            <div class="info-item">
+              <label>Status:</label>
+              <span class="status-badge" [ngClass]="getStatusClass(pedido)">
+                <mat-icon class="status-icon">
+                  {{
+                    pedido.finalizado === true
+                      ? "check_circle"
+                      : pedido.finalizado === false
+                      ? "cancel"
+                      : "schedule"
+                  }}
+                </mat-icon>
+                {{ getStatusPedido(pedido) }}
+              </span>
+            </div>
+
+            <div class="info-item" *ngIf="pedido.observacao">
+              <label>Observações:</label>
+              <span class="info-value">{{ pedido.observacao }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card
+        class="items-section"
+        *ngIf="pedido.itens && pedido.itens.length > 0"
+      >
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>shopping_cart</mat-icon>
+            Itens do Pedido ({{ pedido.itens.length }})
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="items-list">
+            <div
+              class="item-row"
+              *ngFor="let item of pedido.itens; let i = index"
+            >
+              <div class="item-info">
+                <span class="item-name">
+                  <mat-icon class="item-icon">fastfood</mat-icon>
+                  {{ item.nome || "Item " + (i + 1) }}
+                </span>
+                <div class="item-details">
+                  <span class="item-quantity"
+                    >Qtd: {{ item.quantidade || 1 }}</span
+                  >
+                  <span *ngIf="item.precoUnitario" class="item-price">
+                    Preço unitário: {{ formatarMoeda(item.precoUnitario) }}
+                  </span>
+                  <span *ngIf="item.observacao" class="item-obs">
+                    Obs: {{ item.observacao }}
+                  </span>
+                </div>
+              </div>
+              <div
+                class="item-total"
+                *ngIf="item.precoUnitario && item.quantidade"
+              >
+                {{ formatarMoeda(item.precoUnitario * item.quantidade) }}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="summary-section">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>attach_money</mat-icon>
+            Resumo Financeiro
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="summary-grid">
+
+            <mat-divider *ngIf="pedido.valorTotal"></mat-divider>
+
+            <div class="summary-row total" *ngIf="pedido.valorTotal">
+              <label>
+                <mat-icon>receipt</mat-icon>
+                Total Geral:
+              </label>
+              <span>{{ formatarMoeda(pedido.valorTotal) }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card
+        class="confirmation-section"
+        *ngIf="mostrandoConfirmacaoFinalizar || mostrandoConfirmacaoCancelar"
+      >
+        <mat-card-content>
+          <div
+            class="confirmation-content"
+            *ngIf="mostrandoConfirmacaoFinalizar"
+          >
+            <div class="confirmation-icon success">
+              <mat-icon>check_circle</mat-icon>
+            </div>
+            <div class="confirmation-text">
+              <h3>Confirmar Finalização do Pedido</h3>
+              <p>
+                Você tem certeza que deseja <strong>finalizar</strong> este
+                pedido?
+              </p>
+              <p class="warning-text">⚠️ Esta ação não pode ser desfeita!</p>
+            </div>
+          </div>
+
+          <div
+            class="confirmation-content"
+            *ngIf="mostrandoConfirmacaoCancelar"
+          >
+            <div class="confirmation-icon danger">
+              <mat-icon>cancel</mat-icon>
+            </div>
+            <div class="confirmation-text">
+              <h3>Confirmar Cancelamento do Pedido</h3>
+              <p>
+                Você tem certeza que deseja <strong>cancelar</strong> este
+                pedido?
+              </p>
+              <p class="warning-text">⚠️ Esta ação não pode ser desfeita!</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="modal-footer">
+      <div
+        class="normal-actions"
+        *ngIf="!mostrandoConfirmacaoFinalizar && !mostrandoConfirmacaoCancelar"
+      >
+        <div
+          class="action-buttons"
+          *ngIf="pedido && podeFinalizarPedido(pedido)"
+        >
+          <button
+            mat-raised-button
+            color="accent"
+            class="action-btn success"
+            (click)="solicitarConfirmarFinalizar()"
+          >
+            <mat-icon>check_circle</mat-icon>
+            Finalizar Pedido
+          </button>
+
+          <button
+            mat-raised-button
+            color="warn"
+            class="action-btn"
+            (click)="solicitarConfirmarCancelar()"
+          >
+            <mat-icon>cancel</mat-icon>
+            Cancelar Pedido
+          </button>
+        </div>
+
+        <button mat-button (click)="onClose()" class="close-btn">Fechar</button>
+      </div>
+
+      <div
+        class="confirmation-actions"
+        *ngIf="mostrandoConfirmacaoFinalizar || mostrandoConfirmacaoCancelar"
+      >
+        <div class="confirm-buttons" *ngIf="mostrandoConfirmacaoFinalizar">
+          <button
+            mat-button
+            (click)="cancelarConfirmacaoFinalizar()"
+            class="cancel-btn"
+          >
+            Cancelar
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="confirmarFinalizarPedido()"
+            class="confirm-btn success"
+          >
+            <mat-icon>check_circle</mat-icon>
+            Sim, Finalizar
+          </button>
+        </div>
+
+        <div class="confirm-buttons" *ngIf="mostrandoConfirmacaoCancelar">
+          <button
+            mat-button
+            (click)="cancelarConfirmacaoCancelar()"
+            class="cancel-btn"
+          >
+            Não, Manter Pedido
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="confirmarCancelarPedido()"
+            class="confirm-btn danger"
+          >
+            <mat-icon>cancel</mat-icon>
+            Sim, Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
