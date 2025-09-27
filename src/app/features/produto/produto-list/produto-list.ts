@@ -75,6 +75,7 @@ export class ProdutoList implements OnInit {
       next: (produtos) => {
         this.produtos = produtos;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = 'Erro ao carregar produtos.';
@@ -83,6 +84,7 @@ export class ProdutoList implements OnInit {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
+        this.cdr.detectChanges();
       },
     });
   }

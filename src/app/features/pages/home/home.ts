@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MetricsService } from '../../../core/services/metrics.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,10 @@ export class Home implements OnInit {
   loadingPedidos: boolean = true;
   errorPedidos: boolean = false;
 
-  constructor(private metricsService: MetricsService) {}
+  constructor(
+    private metricsService: MetricsService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.carregarPedidosDoDia();
@@ -32,10 +35,12 @@ export class Home implements OnInit {
       next: (response) => {
         this.pedidosDoDia = response;
         this.loadingPedidos = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.errorPedidos = true;
         this.loadingPedidos = false;
+        this.cdr.detectChanges();
       },
     });
   }
