@@ -32,7 +32,7 @@ export class VizualizarPedido {
   mostrandoConfirmacaoCancelar: boolean = false;
 
   onClose(): void {
-    this.mostrandoConfirmacaoFinalizar = true;
+    this.mostrandoConfirmacaoFinalizar = false;
     this.mostrandoConfirmacaoCancelar = false;
     this.close.emit();
   }
