@@ -8,6 +8,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { VizualizarPedido } from '../../../shared/modal/vizualizar-pedido/vizualizar-pedido';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-pedidos-list',
@@ -19,7 +23,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     VizualizarPedido,
+    MatSelectModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatChipsModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './pedidos-list.html',
   styleUrl: './pedidos-list.scss',
@@ -30,6 +38,16 @@ export class PedidosList implements OnInit {
   error: string = '';
   modalVizualizarOpen: boolean = false;
   selectedPedido: Pedido | null = null;
+
+  //filtros
+  filtroStatus: string = 'aberto';
+
+  statusOptions = [
+    { value: 'aberto', label: 'Abertos' },
+    { value: 'finalizado', label: 'Finalizados' },
+    { value: 'cancelado', label: 'Cancelados' },
+    { value: 'all', label: 'Todos' },
+  ];
 
   constructor(
     private pedidoService: PedidoService,
@@ -43,7 +61,11 @@ export class PedidosList implements OnInit {
 
   carregarPedidos(): void {
     this.loading = true;
-    this.pedidoService.getAllPedidos().subscribe({
+    this.error = '';
+
+    const filtros = this.filtroStatus ? { finalizado: this.filtroStatus } : {};
+
+    this.pedidoService.getPedidos(filtros).subscribe({
       next: (pedidos) => {
         this.pedidos = pedidos;
         this.loading = false;
@@ -57,9 +79,13 @@ export class PedidosList implements OnInit {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
-        this.cdr.detectChanges();
       },
     });
+  }
+
+  onFiltroChange(novoFiltro: string): void {
+    this.filtroStatus = novoFiltro;
+    this.carregarPedidos();
   }
 
   abrirModalVizualizar(pedido: Pedido): void {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Produto } from '../models/produto.interface';
@@ -9,6 +9,16 @@ export class PedidoService {
   private apiUrl = 'http://localhost:3000/pedidos';
 
   constructor(private http: HttpClient) {}
+
+  getPedidos(filtros?: { finalizado?: string }): Observable<Pedido[]> {
+    let params = new HttpParams();
+
+    if (filtros?.finalizado) {
+      params = params.set('finalizado', filtros.finalizado);
+    }
+
+    return this.http.get<Pedido[]>(this.apiUrl, { params });
+  }
 
   getAllPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.apiUrl}/list`);

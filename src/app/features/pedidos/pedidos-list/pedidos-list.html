@@ -1,4 +1,24 @@
 <section class="pedido-list">
+  <!-- Header com Filtro -->
+  <div class="pedido-header-section">
+    <h2 class="page-title">
+      <mat-icon class="title-icon">receipt_long</mat-icon>
+      Pedidos
+    </h2>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Status</mat-label>
+      <mat-select
+        [(value)]="filtroStatus"
+        (selectionChange)="onFiltroChange($event.value)"
+      >
+        <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}</mat-option
+        ></mat-select
+      >
+    </mat-form-field>
+  </div>
+
   <!-- Loading State -->
   <div class="status-message" *ngIf="loading">
     <mat-spinner diameter="24"></mat-spinner>
