@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Produto } from '../models/produto.interface';
@@ -8,6 +8,16 @@ export class ProdutoService {
   private apiUrl = 'http://localhost:3000/product';
 
   constructor(private http: HttpClient) {}
+
+  getProdutos(filtros?: { ativo: string }): Observable<Produto[]> {
+    let params = new HttpParams();
+
+    if (filtros?.ativo) {
+      params = params.set('ativo', filtros.ativo);
+    }
+
+    return this.http.get<Produto[]>(this.apiUrl, { params });
+  }
 
   getAllProdutos(): Observable<Produto[]> {
     return this.http.get<Produto[]>(`${this.apiUrl}/list`);

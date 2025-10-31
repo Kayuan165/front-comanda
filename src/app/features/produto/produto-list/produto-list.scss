@@ -2,6 +2,99 @@
   padding: 16px;
   background-color: #f8f9fa;
   min-height: 100vh;
+  box-sizing: border-box;
+
+  .pedido-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0;
+    background-color: transparent;
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
+
+      .title-icon {
+        font-size: 1.75rem;
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+    }
+
+    .filter-field {
+      width: 160px;
+      margin: 0;
+
+      ::ng-deep {
+        // remove fundo cinza
+        .mat-mdc-text-field-wrapper {
+          background-color: white !important;
+        }
+
+        // borda mais suave
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: #e5e7eb !important;
+        }
+
+        // borda no hover
+        .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+        .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+        .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+          border-color: #d1d5db !important;
+        }
+
+        // borda no focus
+        .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+        .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+        .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+          border-color: #6366f1 !important;
+          border-width: 1px !important;
+        }
+
+        // label menor
+        .mat-mdc-form-field-infix {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          min-height: 40px;
+        }
+
+        .mat-mdc-floating-label {
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+
+        // remove overlay de foco
+        .mat-mdc-form-field-focus-overlay {
+          display: none;
+        }
+
+        // texto do select
+        .mat-mdc-select-value {
+          font-size: 0.875rem;
+          color: #111827;
+        }
+
+        // seta do select
+        .mat-mdc-select-arrow {
+          color: #6b7280;
+        }
+
+        // painel do dropdown
+        .mat-mdc-select-panel {
+          background-color: white !important;
+        }
+      }
+    }
+  }
 
   .status-message {
     display: flex;
@@ -11,10 +104,17 @@
     text-align: center;
     font-size: 1rem;
     color: #6b7280;
-    padding: 12px;
+    padding: 32px;
 
     &.error {
       color: #dc2626;
+    }
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: #9ca3af;
     }
   }
 
@@ -22,6 +122,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    max-width: 100%;
   }
 
   .produto-card {
@@ -30,6 +131,12 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background-color: white;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
 
     &:active {
       transform: scale(0.98);
@@ -53,40 +160,48 @@
     }
 
     .mat-mdc-card-content {
-      padding: 16px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      gap: 16px;
+      box-sizing: border-box;
     }
 
     .produto-info {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       flex: 1;
+      min-width: 0;
 
       .produto-header {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
+        margin-bottom: 4px;
 
         .produto-icone {
-          font-size: 1.4rem;
+          font-size: 1.5rem;
+          flex-shrink: 0;
         }
 
         .produto-descricao {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 600;
           color: #111827;
           margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
       .produto-body {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
 
         .produto-preco {
           font-size: 1.1rem;
@@ -95,27 +210,32 @@
         }
 
         .badge {
-          background-color: #007bff;
-          color: white;
           font-size: 0.75rem;
-          padding: 4px 8px;
-          border-radius: 8px;
-          font-weight: 500;
+          padding: 6px 12px;
+          border-radius: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          white-space: nowrap;
 
           &.success {
-            background-color: #059669;
-            color: #fff;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
           }
 
           &.inactive {
-            background-color: #f1baba;
-            color: #374151;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
           }
         }
       }
     }
 
     .produto-actions {
+      flex-shrink: 0;
+
       .acoes {
         display: flex;
         gap: 8px;
@@ -124,7 +244,19 @@
           min-width: 80px;
           font-size: 0.85rem;
           font-weight: 500;
-          border-radius: 6px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 8px 16px;
+
+          mat-icon {
+            font-size: 1rem;
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+          }
         }
       }
     }
@@ -151,18 +283,57 @@
     }
   }
 
+  // Responsividade
+  @media (max-width: 768px) {
+    padding: 12px;
+
+    .pedido-header-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .page-title {
+        font-size: 1.25rem;
+      }
+
+      .filter-field {
+        width: 100%;
+      }
+    }
+  }
+
   @media (max-width: 600px) {
     .produto-card {
       .mat-mdc-card-content {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+        padding: 16px;
       }
 
       .produto-actions {
         width: 100%;
         display: flex;
         justify-content: flex-end;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+
+    .pedido-header-section {
+      margin-bottom: 12px;
+
+      .page-title {
+        font-size: 1.1rem;
+
+        .title-icon {
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
       }
     }
   }
@@ -175,11 +346,11 @@
 }
 
 .success-snackbar {
-  background-color: #059669 !important;
+  background-color: #10b981 !important;
   color: white !important;
 }
 
 .error-snackbar {
-  background-color: #dc2626 !important;
+  background-color: #ef4444 !important;
   color: white !important;
 }

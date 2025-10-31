@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-produto-list',
@@ -34,6 +36,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    MatIconModule,
+    MatSelectModule
   ],
   standalone: true,
   templateUrl: './produto-list.html',
@@ -49,6 +53,13 @@ export class ProdutoList implements OnInit {
   selectedProduto: Produto | null = null;
 
   formEdit: FormGroup;
+  filtroAtivo: string = 'ativo';
+
+  statusOptions = [
+    { value: 'ativo', label: 'Ativos' },
+    { value: 'inativo', label: 'Inativos' },
+    { value: 'all', label: 'Todos' },
+  ];
 
   constructor(
     private produtoService: ProdutoService,
@@ -71,22 +82,36 @@ export class ProdutoList implements OnInit {
   }
 
   carregarProdutos(): void {
-    this.produtoService.getAllProdutos().subscribe({
+    this.loading = true;
+    this.error = '';
+
+    const filtros = this.filtroAtivo
+      ? { ativo: this.filtroAtivo }
+      : { ativo: 'true' };
+
+    this.produtoService.getProdutos(filtros).subscribe({
       next: (produtos) => {
         this.produtos = produtos;
         this.loading = false;
+        this.cdr.markForCheck();
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.error = 'Erro ao carregar produtos.';
+        this.error = 'Erro ao carregar produtos';
         this.loading = false;
-        this.snackBar.open('Erro ao carregar produtos', 'Fechar', {
+        this.snackBar.open('Erro ao carregar produtos.', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
+        this.cdr.markForCheck();
         this.cdr.detectChanges();
       },
     });
+  }
+
+  onFiltroChange(novoFiltro: string): void {
+    this.filtroAtivo = novoFiltro;
+    this.carregarProdutos();
   }
 
   abrirModalEdit(produto: Produto): void {
