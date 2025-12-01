@@ -1,0 +1,107 @@
+<section class="usuario-list">
+  <div class="pedido-header-section">
+    <h2 class="page-title">
+      <mat-icon class="title-icon">people</mat-icon>
+      Usuários
+    </h2>
+  </div>
+
+  @if (loading) {
+  <div class="status-message">
+    <mat-spinner diameter="24"></mat-spinner>
+    <span>Carregando usuários...</span>
+  </div>
+  } @if (error) {
+  <div class="status-message error">
+    {{ error }}
+  </div>
+  } @if (!loading && !error) {
+  <div class="usuarios-container">
+    @for (usuario of usuarios; track usuario._id) {
+    <mat-card class="usuario-card metric-card--primary">
+      <mat-card-content>
+        <div class="usuario-info">
+          <div class="usuario-header">
+            <span class="usuario-icone">👤</span>
+            <h3 class="usuario-nome">{{ usuario.nome }}</h3>
+          </div>
+          <div class="usuario-body">
+            <p class="usuario-email">{{ usuario.email }}</p>
+          </div>
+        </div>
+
+        <div class="usuario-actions">
+          <div class="acoes">
+            <button
+              mat-button
+              color="primary"
+              class="small"
+              (click)="abrirModalEdit(usuario)"
+            >
+              Editar
+            </button>
+            <button
+              mat-button
+              color="warn"
+              class="small"
+              (click)="abrirModalDelete(usuario)"
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
+  }
+
+  <app-modal-edit
+    [isOpen]="modalEditOpen"
+    [title]="'Editar ' + (selectedUsuario?.nome || '')"
+    (close)="fecharModal()"
+    (confirm)="formEdit.valid && confirmarEdit(formEdit.value)"
+  >
+    <form [formGroup]="formEdit" class="form-edit">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="nome"
+          placeholder="Nome completo do usuário"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>E-mail</mat-label>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="usuario@exemplo.com"
+        />
+        @if (formEdit.get('email')?.hasError('email') &&
+        formEdit.get('email')?.touched) {
+        <mat-error>E-mail inválido</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </app-modal-edit>
+
+  <app-modal-delete
+    [isOpen]="modalDeleteOpen"
+    (close)="fecharModal()"
+    (confirm)="confirmarDelete()"
+  >
+    @if (selectedUsuario) {
+    <div>
+      <p>
+        Deseja realmente excluir <strong>{{ selectedUsuario.nome }}</strong
+        >?
+      </p>
+      <p class="warning">Esta ação não pode ser desfeita!</p>
+    </div>
+    }
+  </app-modal-delete>
+</section>

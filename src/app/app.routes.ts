@@ -62,6 +62,17 @@ export const routes: Routes = [
           fab: { label: 'Novo pedido', route: '/pedidos/novo', icon: 'add' },
         },
       },
+      {
+        path: 'usuarios',
+        loadComponent: () =>
+          import('./features/usuarios/usuarios-list/usuarios-list').then(
+            (m) => m.UsuariosList
+          ),
+        data: {
+          bottomNav: true,
+          fab: { label: 'Novo usuário', route: '/usuarios/novo', icon: 'add' },
+        },
+      },
       // {
       //   path: 'relatorios',
       //   loadComponent: () =>

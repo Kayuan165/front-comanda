@@ -25,6 +25,7 @@ export class Shell {
     { label: 'Dashboard', route: '/home' },
     { label: 'Produtos', route: '/produtos' },
     { label: 'Pedidos', route: '/pedidos' },
+    { label: 'Usuários', route: '/usuarios' },
   ];
 
   private showBottomNavSig = signal<boolean>(true);

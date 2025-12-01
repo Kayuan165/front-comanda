@@ -1,0 +1,272 @@
+.usuario-list {
+  padding: 24px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+
+  .pedido-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
+
+      .title-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        color: #3f51b5;
+      }
+    }
+  }
+
+  .status-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: #6b7280;
+
+    &.error {
+      color: #dc2626;
+      border-left: 4px solid #dc2626;
+    }
+  }
+
+  .usuarios-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+
+    .usuario-card {
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+      transition: all 0.2s ease;
+      border-left: 4px solid transparent;
+
+      &.metric-card--primary {
+        border-left-color: #3f51b5;
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12) !important;
+      }
+
+      .mat-mdc-card-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .usuario-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .usuario-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .usuario-icone {
+            font-size: 2rem;
+            line-height: 1;
+          }
+
+          .usuario-nome {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+            word-break: break-word;
+          }
+        }
+
+        .usuario-body {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding-left: 44px;
+
+          .usuario-email {
+            font-size: 0.95rem;
+            color: #6b7280;
+            margin: 0;
+            word-break: break-all;
+          }
+        }
+      }
+
+      .usuario-actions {
+        padding-top: 12px;
+        border-top: 1px solid #e5e7eb;
+
+        .acoes {
+          display: flex;
+          gap: 8px;
+          justify-content: flex-end;
+
+          button.small {
+            padding: 6px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+
+            &.mat-primary {
+              &:hover {
+                background-color: rgba(63, 81, 181, 0.08);
+              }
+            }
+
+            &.mat-warn {
+              &:hover {
+                background-color: rgba(220, 38, 38, 0.08);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .form-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 8px 0;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field {
+      .mdc-text-field {
+        border-radius: 8px;
+        background-color: white;
+
+        &.mdc-text-field--outlined {
+          .mdc-notched-outline {
+            .mdc-notched-outline__leading,
+            .mdc-notched-outline__notch,
+            .mdc-notched-outline__trailing {
+              border-color: #d1d5db;
+            }
+          }
+
+          &.mdc-text-field--focused {
+            .mdc-notched-outline {
+              .mdc-notched-outline__leading,
+              .mdc-notched-outline__notch,
+              .mdc-notched-outline__trailing {
+                border-color: #3f51b5;
+                border-width: 2px;
+              }
+            }
+          }
+        }
+      }
+
+      .mat-mdc-form-field-error {
+        font-size: 0.8rem;
+        color: #dc2626;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .warning {
+    color: #dc2626;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .pedido-header-section {
+      .page-title {
+        font-size: 1.5rem;
+
+        .title-icon {
+          font-size: 1.75rem;
+          width: 1.75rem;
+          height: 1.75rem;
+        }
+      }
+    }
+
+    .usuarios-container {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px;
+
+    .pedido-header-section {
+      .page-title {
+        font-size: 1.35rem;
+      }
+    }
+
+    .usuarios-container {
+      .usuario-card {
+        .usuario-info {
+          .usuario-header {
+            .usuario-nome {
+              font-size: 1.1rem;
+            }
+          }
+
+          .usuario-body {
+            padding-left: 36px;
+
+            .usuario-email {
+              font-size: 0.875rem;
+            }
+          }
+        }
+
+        .usuario-actions {
+          .acoes {
+            flex-wrap: wrap;
+
+            button.small {
+              flex: 1;
+              min-width: 80px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.success-snackbar {
+  background-color: #059669 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #b91c1c !important;
+  color: white !important;
+}
