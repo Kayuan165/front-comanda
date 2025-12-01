@@ -11,4 +11,8 @@ export class MetricsService {
   getQtdPedidos(): Observable<any> {
     return this.http.get(`${this.apiUrl}/pedidos`);
   }
+
+  getQtdRecebida(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/valorTotal`);
+  }
 }

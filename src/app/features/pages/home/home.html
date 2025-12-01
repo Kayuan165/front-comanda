@@ -1,7 +1,7 @@
 <div class="home-container">
   <div class="home-header">
     <h1>Dashboard</h1>
-    <button mat-icon-button (click)="recarregar()" aria-label="Recarregar">
+    <button mat-icon-button (click)="recarregar()" aria-label="Recarregar dados">
       <mat-icon>refresh</mat-icon>
     </button>
   </div>
@@ -10,9 +10,18 @@
     <app-cards
       title="Pedidos do Dia"
       [value]="pedidosDoDia"
-      [loading]="loadingPedidos"
-      [error]="errorPedidos"
+      [loading]="loading"
+      [error]="error"
       icon="shopping_cart"
+      color="primary"
+    >
+    </app-cards>
+    <app-cards
+      title="Valor Total Recebido no Dia"
+      [value]="valorTotalRecebido"
+      [loading]="loading"
+      [error]="error"
+      icon="attach_money"
       color="primary"
     >
     </app-cards>
