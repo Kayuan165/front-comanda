@@ -63,6 +63,16 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'usuarios/novo',
+        loadComponent: () =>
+          import('./features/usuarios/usuarios-create/usuarios-create').then(
+            (m) => m.UsuariosCreate
+          ),
+        data: {
+          bottomNav: true,
+        },
+      },
+      {
         path: 'usuarios',
         loadComponent: () =>
           import('./features/usuarios/usuarios-list/usuarios-list').then(

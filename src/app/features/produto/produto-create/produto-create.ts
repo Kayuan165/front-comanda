@@ -37,8 +37,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class ProdutoCreate {
   produtoForm: FormGroup;
   isLoading = false;
-  errorMessage: string | null = null;
-  successMessage: string | null = null;
 
   constructor(
     private produtoService: ProdutoService,
@@ -61,8 +59,6 @@ export class ProdutoCreate {
     }
 
     this.isLoading = true;
-    this.errorMessage = null;
-    this.successMessage = null;
 
     const produto: Produto = this.produtoForm.value;
 
