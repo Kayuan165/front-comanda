@@ -1,61 +1,69 @@
 <div class="login-page">
   <mat-card class="login-card">
-    <h1 class="login-title">DeMattos Lanches</h1>
+    <div class="login-header">
+      <mat-icon class="login-icon">restaurant_menu</mat-icon>
+      <h1 class="login-title">DeMattos Lanches</h1>
+      <p class="login-subtitle">Faça login para acessar o sistema</p>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
-      <!-- E-MAIL -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>E-mail</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
         <input
           matInput
           type="email"
           id="email"
           formControlName="email"
           placeholder="Digite seu e-mail"
+          autocomplete="email"
         />
-        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-          E-mail é obrigatório.
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-          Informe um e-mail válido.
-        </mat-error>
+        @if (loginForm.get("email")?.hasError("required")) {
+          <mat-error>E-mail é obrigatório.</mat-error>
+        }
+        @if (loginForm.get("email")?.hasError("email")) {
+          <mat-error>Informe um e-mail válido.</mat-error>
+        }
       </mat-form-field>
 
-      <!-- SENHA -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Senha</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
         <input
           matInput
-          [type]="showPassword() ? 'text' : 'password'"
+          [type]="showPassword ? 'text' : 'password'"
           id="senha"
           formControlName="senha"
           placeholder="Digite sua senha"
+          autocomplete="current-password"
         />
         <button
           mat-icon-button
           matSuffix
+          (click)="showPassword = !showPassword"
           type="button"
-          (click)="togglePasswordVisibility()"
-          [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'"
+          [attr.aria-label]="'Esconder senha'"
+          [attr.aria-pressed]="showPassword"
         >
           <mat-icon>{{
-            showPassword() ? "visibility_off" : "visibility"
+            showPassword ? "visibility_off" : "visibility"
           }}</mat-icon>
         </button>
-        <mat-error *ngIf="loginForm.get('senha')?.hasError('required')">
-          Senha é obrigatória.
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('senha')?.hasError('minlength')">
-          Mínimo de 6 caracteres.
-        </mat-error>
+        @if (loginForm.get("senha")?.hasError("required")) {
+          <mat-error>Senha é obrigatória.</mat-error>
+        }
+        @if (loginForm.get("senha")?.hasError("minlength")) {
+          <mat-error>Mínimo de 6 caracteres.</mat-error>
+        }
       </mat-form-field>
 
-      <!-- ERRO GLOBAL -->
-      <div class="error-message" *ngIf="errorMessage()">
-        {{ errorMessage() }}
-      </div>
+      @if (errorMessage()) {
+        <div class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
 
-      <!-- BOTÃO -->
       <button
         mat-flat-button
         color="primary"
@@ -63,15 +71,24 @@
         [disabled]="loading() || loginForm.invalid"
         class="submit-button"
       >
-        <mat-progress-spinner
-          *ngIf="loading()"
-          mode="indeterminate"
-          diameter="20"
-          color="accent"
-        >
-        </mat-progress-spinner>
-        <span *ngIf="!loading()">Entrar</span>
+        @if (loading()) {
+          <mat-progress-spinner
+            mode="indeterminate"
+            diameter="20"
+          ></mat-progress-spinner>
+          <span>Entrando...</span>
+        } @else {
+          <span>Entrar</span>
+        }
+        <mat-icon>login</mat-icon>
       </button>
     </form>
+
+    <div class="login-footer">
+      <p class="footer-text">
+        <mat-icon class="footer-icon">info_outline</mat-icon>
+        Sistema de gerenciamento interno
+      </p>
+    </div>
   </mat-card>
 </div>

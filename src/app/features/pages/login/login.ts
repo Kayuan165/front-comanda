@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatProgressSpinnerModule,
     MatInputModule,
+    MatButtonModule,
   ],
   standalone: true,
   templateUrl: './login.html',
@@ -39,7 +41,7 @@ export class Login implements OnInit {
 
   loading = signal<boolean>(false);
   errorMessage = signal<string>('');
-  showPassword = signal<boolean>(false);
+  showPassword = true;
 
   loginForm: FormGroup;
 
@@ -75,17 +77,13 @@ export class Login implements OnInit {
           this.handleError(error);
           return of(null);
         }),
-        finalize(() => this.loading.set(false))
+        finalize(() => this.loading.set(false)),
       )
       .subscribe((response) => {
         if (response) {
           this.handleSuccess();
         }
       });
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword.update((show) => !show);
   }
 
   private handleSuccess(): void {
