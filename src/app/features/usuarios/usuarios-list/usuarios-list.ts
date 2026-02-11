@@ -113,10 +113,42 @@ export class UsuariosList implements OnInit {
   }
 
   confirmarEdit(usuario: Usuario): void {
-    // Lógica para confirmar edição do usuário
+    this.usuarioService.editarUsuario(usuario).subscribe({
+      next: () => {
+        this.snackBar.open('Usuário editado com sucesso!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+        this.fecharModal();
+        this.carregarUsuarios();
+      },
+      error: () => {
+        this.snackBar.open('Erro ao editar usuário', 'Fechar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+      },
+    });
   }
 
   confirmarDelete(): void {
-    // Lógica para confirmar exclusão do usuário
+    if (this.selectedUsuario) {
+      this.usuarioService.deletarUsuario(this.selectedUsuario._id).subscribe({
+        next: () => {
+          this.snackBar.open('Usuário excluído com sucesso!', 'Fechar', {
+            duration: 3000,
+            panelClass: ['success-snackbar'],
+          });
+          this.fecharModal();
+          this.carregarUsuarios();
+        },
+        error: () => {
+          this.snackBar.open('Erro ao excluir usuário', 'Fechar', {
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+          });
+        },
+      });
+    }
   }
 }

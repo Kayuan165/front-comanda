@@ -17,4 +17,15 @@ export class UsuarioService {
   createUsuario(usuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.apiUrlAuth}/register`, usuario);
   }
+
+  deletarUsuario(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
+
+  editarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.patch<Usuario>(
+      `${this.apiUrl}/update/:${usuario._id}`,
+      usuario,
+    );
+  }
 }
