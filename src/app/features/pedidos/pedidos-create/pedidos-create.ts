@@ -23,8 +23,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { CurrencyBrPipe } from '../../../shared/pipes/currency-br.pipe';
 import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../core/auth/auth.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CurrencyMaskDirective } from '../../../shared/directives/currency-mask.directive';
 
 @Component({
   selector: 'app-pedidos-create',
@@ -43,6 +46,10 @@ import { AuthService } from '../../../core/auth/auth.service';
     MatRadioModule,
     CurrencyBrPipe,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    CurrencyMaskDirective,
   ],
   standalone: true,
   templateUrl: './pedidos-create.html',
@@ -68,13 +75,14 @@ export class PedidosCreate implements OnInit {
     private pedidoService: PedidoService,
     private snackbar: MatSnackBar,
     private route: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.pedidoForm = this.fb.group({
       cliente: ['', [Validators.required, Validators.minLength(2)]],
       status: [true, Validators.required],
       agendado: [false],
-      horarioAgendamento: [''],
+      dataAgendamento: [null],
+      horaAgendamento: [''],
       observacao: [''],
       itens: this.fb.array([]),
       pagamentos: this.fb.array([]),
@@ -87,16 +95,65 @@ export class PedidosCreate implements OnInit {
     this.adicionarFormaPagamento();
   }
 
+  minDate: Date = new Date();
+  horariosDisponiveis: string[] = this.gerarHorariosDisponiveis();
+
+  gerarHorariosDisponiveis(): string[] {
+    const horarios: string[] = [];
+    for (let hora = 8; hora <= 22; hora++) {
+      horarios.push(`${hora.toString().padStart(2, '0')}:00`);
+      horarios.push(`${hora.toString().padStart(2, '0')}:30`);
+    }
+    return horarios;
+  }
+
+  formatarHora(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let valor = input.value.replace(/\D/g, '');
+
+    if (valor.length > 4) {
+      valor = valor.substring(0, 4);
+    }
+
+    if (valor.length >= 3) {
+      valor = valor.substring(0, 2) + ':' + valor.substring(2);
+    }
+
+    input.value = valor;
+    this.pedidoForm.get('horaAgendamento')?.setValue(valor);
+  }
+
+  validarHora(): void {
+    const horaControl = this.pedidoForm.get('horaAgendamento');
+    const valor = horaControl?.value || '';
+
+    if (valor && valor.length === 5) {
+      const [hora, minuto] = valor.split(':').map(Number);
+      if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
+        horaControl?.setErrors({ horaInvalida: true });
+      }
+    }
+  }
+
   setupFormValidation(): void {
     this.pedidoForm.get('agendado')?.valueChanges.subscribe((agendado) => {
-      const horarioControl = this.pedidoForm.get('horarioAgendamento');
+      const dataControl = this.pedidoForm.get('dataAgendamento');
+      const horaControl = this.pedidoForm.get('horaAgendamento');
+
       if (agendado) {
-        horarioControl?.setValidators([Validators.required]);
+        dataControl?.setValidators([Validators.required]);
+        horaControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+        ]);
       } else {
-        horarioControl?.clearValidators();
-        horarioControl?.setValue('');
+        dataControl?.clearValidators();
+        horaControl?.clearValidators();
+        dataControl?.setValue(null);
+        horaControl?.setValue('');
       }
-      horarioControl?.updateValueAndValidity();
+      dataControl?.updateValueAndValidity();
+      horaControl?.updateValueAndValidity();
     });
   }
 
@@ -138,7 +195,7 @@ export class PedidosCreate implements OnInit {
   criarFormaPagamento(): FormGroup {
     return this.fb.group({
       tipo: ['', Validators.required],
-      valor: [0, [Validators.required, Validators.min(0.01)]],
+      valor: [null, [Validators.required, Validators.min(0.01)]],
       trocoPara: [null],
     });
   }
@@ -219,7 +276,7 @@ export class PedidosCreate implements OnInit {
         'Fechar',
         {
           duration: 3000,
-        }
+        },
       );
       return;
     }
@@ -237,7 +294,7 @@ export class PedidosCreate implements OnInit {
         'Fechar',
         {
           duration: 3000,
-        }
+        },
       );
       return;
     }
@@ -254,6 +311,19 @@ export class PedidosCreate implements OnInit {
     }
 
     const formValue = this.pedidoForm.value;
+
+    let horarioAgendamento: string | undefined;
+    if (
+      formValue.agendado &&
+      formValue.dataAgendamento &&
+      formValue.horaAgendamento
+    ) {
+      const data = new Date(formValue.dataAgendamento);
+      const [horas, minutos] = formValue.horaAgendamento.split(':');
+      data.setHours(parseInt(horas, 10), parseInt(minutos, 10), 0, 0);
+      horarioAgendamento = data.toISOString();
+    }
+
     const pedidoDto: CreatePedidoDto = {
       usuario: userId,
       cliente: formValue.cliente,
@@ -261,7 +331,7 @@ export class PedidosCreate implements OnInit {
       pagamentos: formValue.pagamentos,
       valorTotal: this.calcularTotal(),
       agendado: formValue.agendado,
-      horarioAgendamento: formValue.horarioAgendamento,
+      horarioAgendamento: horarioAgendamento,
       pago: true,
       observacao: formValue.observacao,
       status: formValue.status,

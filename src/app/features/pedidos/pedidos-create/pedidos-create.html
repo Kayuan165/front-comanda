@@ -52,26 +52,78 @@
               </mat-checkbox>
             </div>
 
-            <mat-form-field
+            <!-- Data e Hora de Agendamento -->
+            <div
               *ngIf="pedidoForm.get('agendado')?.value"
-              appearance="outline"
-              class="full-width"
+              class="scheduling-fields"
             >
-              <mat-label>Horário para Retirada</mat-label>
-              <input
-                matInput
-                type="datetime-local"
-                formControlName="horarioAgendamento"
-              />
-              <mat-error
-                *ngIf="
-                  pedidoForm.get('horarioAgendamento')?.invalid &&
-                  pedidoForm.get('horarioAgendamento')?.touched
-                "
-              >
-                Horário de agendamento é obrigatório
-              </mat-error>
-            </mat-form-field>
+              <mat-form-field appearance="outline" class="date-field">
+                <mat-label>Data para Retirada</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="dataAgendamento"
+                  [min]="minDate"
+                  placeholder="Selecione a data"
+                  readonly
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    pedidoForm.get('dataAgendamento')?.invalid &&
+                    pedidoForm.get('dataAgendamento')?.touched
+                  "
+                >
+                  Data de agendamento é obrigatória
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="time-field">
+                <mat-label>Horário</mat-label>
+                <input
+                  matInput
+                  formControlName="horaAgendamento"
+                  placeholder="00:00"
+                  maxlength="5"
+                  (input)="formatarHora($event)"
+                  (blur)="validarHora()"
+                  [matAutocomplete]="autoHora"
+                />
+                <mat-icon matPrefix>schedule</mat-icon>
+                <mat-autocomplete #autoHora="matAutocomplete">
+                  <mat-option
+                    *ngFor="let hora of horariosDisponiveis"
+                    [value]="hora"
+                  >
+                    {{ hora }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint>Digite ou selecione (ex: 14:30)</mat-hint>
+                <mat-error
+                  *ngIf="
+                    pedidoForm.get('horaAgendamento')?.invalid &&
+                    pedidoForm.get('horaAgendamento')?.touched
+                  "
+                >
+                  <span
+                    *ngIf="
+                      pedidoForm.get('horaAgendamento')?.errors?.['required']
+                    "
+                    >Horário é obrigatório</span
+                  >
+                  <span
+                    *ngIf="
+                      pedidoForm.get('horaAgendamento')?.errors?.['pattern']
+                    "
+                    >Formato inválido (use HH:MM)</span
+                  >
+                </mat-error>
+              </mat-form-field>
+            </div>
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Observações</mat-label>
@@ -143,14 +195,14 @@
                     <span class="unit-price"
                       >R$
                       {{
-                        item.get("precoUnitario")?.value | number : "1.2-2"
+                        item.get("precoUnitario")?.value | number: "1.2-2"
                       }}</span
                     >
                     <span class="total-price">
                       Total: R$
                       {{
                         item.get("quantidade")?.value *
-                          item.get("precoUnitario")?.value | number : "1.2-2"
+                          item.get("precoUnitario")?.value | number: "1.2-2"
                       }}
                     </span>
                   </div>
@@ -219,15 +271,15 @@
 
                   <mat-form-field appearance="outline" class="payment-value">
                     <mat-label>Valor</mat-label>
+                    <span matPrefix>R$&nbsp;</span>
                     <input
                       matInput
-                      type="number"
-                      step="0.01"
-                      min="0"
+                      type="text"
+                      inputmode="decimal"
+                      appCurrencyMask
                       formControlName="valor"
                       placeholder="0,00"
                     />
-                    <span matPrefix>R$ </span>
                     <mat-error
                       *ngIf="
                         pagamento.get('valor')?.invalid &&
@@ -244,14 +296,15 @@
                     class="payment-change"
                   >
                     <mat-label>Troco para</mat-label>
+                    <span matPrefix>R$&nbsp;</span>
                     <input
                       matInput
-                      type="number"
-                      step="0.01"
+                      type="text"
+                      inputmode="decimal"
+                      appCurrencyMask
                       formControlName="trocoPara"
                       placeholder="0,00"
                     />
-                    <span matPrefix>R$ </span>
                   </mat-form-field>
                 </div>
               </div>
@@ -273,11 +326,11 @@
             <div class="total-display">
               <div class="subtotal">
                 <span>Subtotal:</span>
-                <span>R$ {{ calcularSubtotal() | number : "1.2-2" }}</span>
+                <span>R$ {{ calcularSubtotal() | number: "1.2-2" }}</span>
               </div>
               <div class="total">
                 <span>Total:</span>
-                <span>R$ {{ calcularTotal() | number : "1.2-2" }}</span>
+                <span>R$ {{ calcularTotal() | number: "1.2-2" }}</span>
               </div>
             </div>
           </div>
@@ -335,8 +388,8 @@
         >
           <div class="product-info">
             <h4>{{ produto.descricao }}</h4>
-            <span class="product-price"
-              > R$ {{ produto.preco | currencyBr }}</span
+            <span class="product-price">
+              R$ {{ produto.preco | currencyBr }}</span
             >
           </div>
           <mat-icon class="add-icon">add_circle</mat-icon>

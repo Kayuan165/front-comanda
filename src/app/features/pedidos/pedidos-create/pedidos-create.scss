@@ -113,6 +113,39 @@
     }
   }
 
+  .scheduling-fields {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    pointer-events: none;
+
+    .date-field {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .time-field {
+      flex: 1;
+      min-width: 150px;
+
+      mat-icon {
+        color: #3f51b5;
+        margin-right: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 12px;
+
+      .date-field,
+      .time-field {
+        width: 100%;
+      }
+    }
+  }
+
   // Itens
   .items-container {
     display: flex;
