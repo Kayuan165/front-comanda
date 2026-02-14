@@ -124,13 +124,21 @@
     border-left: 4px solid;
     border-radius: 16px !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     background-color: white;
     max-width: 100%;
     box-sizing: border-box;
+    pointer-events: none;
 
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .produto-actions,
+    button {
+      pointer-events: auto;
     }
 
     &:active {

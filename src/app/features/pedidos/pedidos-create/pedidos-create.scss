@@ -8,10 +8,20 @@
     background-color: white;
     border-radius: 16px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
-
-    &:active {
-      transform: scale(0.98);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+    pointer-events: none;
+    input,
+    textarea,
+    button,
+    mat-select,
+    mat-checkbox,
+    mat-radio-button,
+    .mat-mdc-form-field,
+    .mat-mdc-button,
+    .mat-mdc-icon-button,
+    .item-card,
+    .payment-card,
+    .quantity-control {
+      pointer-events: auto;
     }
   }
 
