@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import { ModalConfirm } from '../../../shared/modal/modal-confirm/modal-confirm';
 
 @Component({
   selector: 'app-pedidos-list',
@@ -28,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatChipsModule,
     MatButtonToggleModule,
+    ModalConfirm,
   ],
   templateUrl: './pedidos-list.html',
   styleUrl: './pedidos-list.scss',
@@ -38,6 +40,10 @@ export class PedidosList implements OnInit {
   error: string = '';
   modalVizualizarOpen: boolean = false;
   selectedPedido: Pedido | null = null;
+
+  modalConfirmOpen: boolean = false;
+  confirmAction: 'finalizar' | 'cancelar' | null = null;
+  pedidoParaConfirmar: Pedido | null = null;
 
   //filtros
   filtroStatus: string = 'aberto';
@@ -52,7 +58,7 @@ export class PedidosList implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private cdr: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -98,7 +104,63 @@ export class PedidosList implements OnInit {
     this.selectedPedido = null;
   }
 
+  abrirModalConfirmacao(
+    pedido: Pedido,
+    action: 'finalizar' | 'cancelar',
+  ): void {
+    this.pedidoParaConfirmar = pedido;
+    this.confirmAction = action;
+    this.modalConfirmOpen = true;
+  }
+
+  fecharModalConfirmacao(): void {
+    this.modalConfirmOpen = false;
+    this.confirmAction = null;
+    this.pedidoParaConfirmar = null;
+  }
+
+  confirmarAcao(): void {
+    if (!this.pedidoParaConfirmar || !this.confirmAction) return;
+
+    if (this.confirmAction === 'finalizar') {
+      this.executarFinalizarPedido(this.pedidoParaConfirmar);
+    } else if (this.confirmAction === 'cancelar') {
+      this.executarCancelarPedido(this.pedidoParaConfirmar);
+    }
+
+    this.fecharModalConfirmacao();
+  }
+
+  getConfirmTitle(): string {
+    return this.confirmAction === 'finalizar'
+      ? 'Finalizar Pedido'
+      : 'Cancelar Pedido';
+  }
+
+  getConfirmMessage(): string {
+    const cliente = this.pedidoParaConfirmar?.cliente || 'este pedido';
+    return this.confirmAction === 'finalizar'
+      ? `Tem certeza que deseja finalizar o pedido de ${cliente}?`
+      : `Tem certeza que deseja cancelar o pedido de ${cliente}?`;
+  }
+
+  getConfirmButtonText(): string {
+    return this.confirmAction === 'finalizar' ? 'Finalizar' : 'Cancelar Pedido';
+  }
+
+  getConfirmButtonType(): 'success' | 'danger' {
+    return this.confirmAction === 'finalizar' ? 'success' : 'danger';
+  }
+
   finalizarPedido(pedido: Pedido): void {
+    this.abrirModalConfirmacao(pedido, 'finalizar');
+  }
+
+  cancelarPedido(pedido: Pedido): void {
+    this.abrirModalConfirmacao(pedido, 'cancelar');
+  }
+
+  private executarFinalizarPedido(pedido: Pedido): void {
     const pedidoAtualizado = { ...pedido, finalizado: true };
 
     this.pedidoService.editarPedido(pedidoAtualizado).subscribe({
@@ -120,7 +182,7 @@ export class PedidosList implements OnInit {
     });
   }
 
-  cancelarPedido(pedido: Pedido): void {
+  private executarCancelarPedido(pedido: Pedido): void {
     const pedidoAtualizado = { ...pedido, finalizado: false };
 
     this.pedidoService.editarPedido(pedidoAtualizado).subscribe({

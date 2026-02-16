@@ -51,7 +51,7 @@
             <div class="pedido-detalhes">
               <p class="pedido-valor" *ngIf="pedido.valorTotal">
                 <mat-icon class="info-icon">attach_money</mat-icon>
-                {{ pedido.valorTotal | currency : "BRL" : "symbol" : "1.2-2" }}
+                {{ pedido.valorTotal | currency: "BRL" : "symbol" : "1.2-2" }}
               </p>
 
               <p class="pedido-data" *ngIf="pedido.horarioAgendamento">
@@ -135,4 +135,15 @@
     (cancelarPedido)="cancelarPedido($event)"
   >
   </app-vizualizar-pedido>
+
+  <app-modal-confirm
+    [isOpen]="modalConfirmOpen"
+    [title]="getConfirmTitle()"
+    [confirmButtonText]="getConfirmButtonText()"
+    [confirmButtonType]="getConfirmButtonType()"
+    (close)="fecharModalConfirmacao()"
+    (confirm)="confirmarAcao()"
+  >
+    <p>{{ getConfirmMessage() }}</p>
+  </app-modal-confirm>
 </section>
