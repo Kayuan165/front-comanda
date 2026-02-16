@@ -339,11 +339,19 @@ export class PedidosCreate implements OnInit {
 
     this.pedidoService.criarPedido(pedidoDto).subscribe({
       next: (response) => {
-        this.snackbar.open('Pedido criado com sucesso!', 'Fechar', {
-          duration: 3000,
+        const snackBarRef = this.snackbar.open(
+          'Pedido criado com sucesso!',
+          'Ver Pedidos',
+          {
+            duration: 5000,
+          },
+        );
+
+        snackBarRef.onAction().subscribe(() => {
+          this.route.navigate(['/pedidos']);
         });
-        this.pedidoForm.reset();
-        this.route.navigate(['/pedidos/novo']);
+
+        this.resetarFormulario();
       },
 
       error: (err) => {
@@ -379,6 +387,29 @@ export class PedidosCreate implements OnInit {
   fecharSeletorProduto() {
     this.showProdutoSelector = false;
     this.currentItemIndex = null;
+  }
+
+  private resetarFormulario(): void {
+    while (this.itensFormArray.length > 0) {
+      this.itensFormArray.removeAt(0);
+    }
+
+    while (this.pagamentosFormArray.length > 0) {
+      this.pagamentosFormArray.removeAt(0);
+    }
+
+    this.pedidoForm.reset({
+      cliente: '',
+      status: true,
+      agendado: false,
+      dataAgendamento: null,
+      horaAgendamento: '',
+      observacao: '',
+    });
+
+    this.adicionarFormaPagamento();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   trackByProdutoId(index: number, produto: Produto): string {
