@@ -58,9 +58,11 @@ import { CurrencyMaskDirective } from '../../../shared/directives/currency-mask.
 export class PedidosCreate implements OnInit {
   pedidoForm: FormGroup;
   produtos: Produto[] = [];
+  todosProdutos: Produto[] = [];
   loading: boolean = false;
   showProdutoSelector: boolean = false;
   currentItemIndex: number | null = null;
+  filtroDescricao: string = '';
 
   formasPagamento = [
     { value: 'dinheiro', label: 'Dinheiro' },
@@ -93,6 +95,21 @@ export class PedidosCreate implements OnInit {
     this.carregarProdutos();
     this.setupFormValidation();
     this.adicionarFormaPagamento();
+  }
+
+  onInputChange(event: Event): void {
+    const descricao = (event.target as HTMLInputElement).value
+      .toLowerCase()
+      .trim();
+
+    if (!descricao) {
+      this.produtos = [...this.todosProdutos];
+      return;
+    }
+
+    this.produtos = this.todosProdutos.filter((produto) =>
+      produto.descricao.toLowerCase().includes(descricao),
+    );
   }
 
   minDate: Date = new Date();
@@ -168,7 +185,9 @@ export class PedidosCreate implements OnInit {
   carregarProdutos(): void {
     this.produtoService.getAllProdutos().subscribe({
       next: (produtos) => {
-        this.produtos = produtos.filter((produto) => produto.ativo);
+        const ativos = produtos.filter((p) => p.ativo);
+        this.todosProdutos = ativos;
+        this.produtos = [...ativos];
       },
       error: (err) => {
         this.snackbar.open('Erro ao carregar produtos', 'Fechar', {
@@ -203,6 +222,8 @@ export class PedidosCreate implements OnInit {
   adicionarItem(): void {
     this.showProdutoSelector = true;
     this.currentItemIndex = null;
+    this.filtroDescricao = '';
+    this.produtos = [...this.todosProdutos];
   }
 
   selecionarProduto(produto: Produto): void {
@@ -387,6 +408,8 @@ export class PedidosCreate implements OnInit {
   fecharSeletorProduto() {
     this.showProdutoSelector = false;
     this.currentItemIndex = null;
+    this.filtroDescricao = '';
+    this.produtos = [];
   }
 
   private resetarFormulario(): void {

@@ -357,44 +357,58 @@
   </mat-card>
 
   <!-- Modal de Seleção de Produto -->
-  <div
-    *ngIf="showProdutoSelector"
-    class="product-selector-overlay"
-    (click)="fecharSeletorProduto()"
-  >
-    <div class="product-selector-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>Selecionar Produto</h3>
-        <button mat-icon-button (click)="fecharSeletorProduto()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-
-      <div class="product-list">
-        <div *ngIf="loading" class="loading-container">
-          <mat-progress-spinner diameter="40"></mat-progress-spinner>
-          <p>Carregando produtos...</p>
+  @if (showProdutoSelector) {
+    <div class="product-selector-overlay" (click)="fecharSeletorProduto()">
+      <div class="product-selector-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Selecionar Produto</h3>
+          <button mat-icon-button (click)="fecharSeletorProduto()">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
 
-        <div *ngIf="!loading && produtos.length === 0" class="empty-state">
-          <mat-icon>inventory_2</mat-icon>
-          <p>Nenhum produto encontrado</p>
+        <div class="product-search">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Buscar produto</mat-label>
+            <input
+              matInput
+              placeholder="Digite o nome ou descrição..."
+              (input)="onInputChange($event)"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
         </div>
 
-        <div
-          *ngFor="let produto of produtos; trackBy: trackByProdutoId"
-          class="product-item"
-          (click)="selecionarProduto(produto)"
-        >
-          <div class="product-info">
-            <h4>{{ produto.descricao }}</h4>
-            <span class="product-price">
-              R$ {{ produto.preco | currencyBr }}</span
-            >
-          </div>
-          <mat-icon class="add-icon">add_circle</mat-icon>
+        <div class="product-list">
+          @if (loading) {
+            <div class="loading-container">
+              <mat-progress-spinner diameter="40"></mat-progress-spinner>
+              <p>Carregando produtos...</p>
+            </div>
+          }
+
+          @if (!loading && produtos.length === 0) {
+            <div class="empty-state">
+              <mat-icon>inventory_2</mat-icon>
+              <p>Nenhum produto encontrado</p>
+            </div>
+          }
+
+          @if (!loading && produtos.length > 0) {
+            @for (produto of produtos; track $index) {
+              <div class="product-item" (click)="selecionarProduto(produto)">
+                <div class="product-info">
+                  <h4>{{ produto.descricao }}</h4>
+                  <span class="product-price">
+                    R$ {{ produto.preco | currencyBr }}
+                  </span>
+                </div>
+                <mat-icon class="add-icon">add_circle</mat-icon>
+              </div>
+            }
+          }
         </div>
       </div>
     </div>
-  </div>
+  }
 </div>
