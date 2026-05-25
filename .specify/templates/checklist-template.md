@@ -35,8 +35,11 @@
 ## Qualidade
 
 - [ ] CHK015 Existem testes unitários relevantes para componentes, serviços, pipes ou diretivas alterados.
-- [ ] CHK016 A documentação relacionada foi atualizada quando a feature mudou comportamento, estrutura ou convenção.
-- [ ] CHK017 O texto da interface foi mantido em português e sem inconsistências de domínio.
+- [ ] CHK016 A cobertura de testes unitários cobre todas as funções criadas e as já impactadas pela mudança.
+- [ ] CHK017 Há revisão dedicada de todos os arquivos `.scss` novos ou alterados e validação do padrão de estilo do projeto.
+- [ ] CHK018 A documentação relacionada foi atualizada quando a feature mudou comportamento, estrutura ou convenção.
+- [ ] CHK019 O SpecKit não criou branches ou commits automaticamente; o controle de Git foi mantido manual.
+- [ ] CHK020 O texto da interface foi mantido em português e sem inconsistências de domínio.
 
 ## Notas
 

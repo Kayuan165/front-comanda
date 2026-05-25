@@ -27,6 +27,10 @@ Verifique antes de implementar:
 - O fluxo considera estados de loading, erro, vazio e sucesso?
 - A interface respeita UX mobile-first e o padrão visual claro/minimalista?
 - Formulários complexos usam abordagem reativa?
+- Há cobertura de testes unitários planejada para todas as funções criadas e impactadas?
+- Existe um plano de revisão de estilos `.scss` para arquivos novos ou alterados?
+- A documentação será atualizada automaticamente quando a feature alterar comportamento, fluxo ou contratos?
+- O plano não depende de criação automática de branches ou commits pelo SpecKit?
 
 Se alguma resposta for “não”, registrar justificativa ainda neste plano.
 

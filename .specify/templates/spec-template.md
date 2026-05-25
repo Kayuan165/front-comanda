@@ -5,6 +5,20 @@
 **Status**: Rascunho  
 **Entrada**: Descrição do usuário: "$ARGUMENTS"
 
+## Regras de Conformidade do Agente
+
+As entregas descritas neste spec devem seguir as regras obrigatórias do projeto e do agente:
+
+1. Qualidade de código como engenheiro sênior: evitar code smells, duplicação, acoplamento excessivo e complexidade ciclomática alta.
+2. Cobertura de testes unitários obrigatória, validando todas as funções novas e existentes impactadas pela alteração.
+3. Revisão de estilos `.scss` em todo novo specify, incluindo arquivos criados ou alterados e validação do template geral de estilos.
+4. Seguir estritamente a estrutura de pastas e arquivos já adotada no projeto: `src/app/core`, `src/app/shared`, `src/app/features`.
+5. Documentação automática deve ser mantida sincronizada com o estado real do sistema quando a feature alterar fluxo, interface ou contratos.
+6. SpecKit não cria branches nem commita mudanças automaticamente; branch e commit são responsabilidade do desenvolvedor.
+7. Agente pode criar arquivos quando necessário, mas somente seguindo padrões e lógicas existentes do projeto.
+8. Componentes globais e reutilizáveis devem ser priorizados em vez de duplicação isolada.
+9. CamelCase obrigatório para nomes de componentes, arquivos de componentes, variáveis, funções e métodos.
+
 ## Resumo
 
 [Descreva em 2 a 4 linhas o problema, o fluxo principal e o resultado esperado para o usuário do sistema.]

@@ -45,6 +45,8 @@ This extension provides Git operations as an optional, self-contained module. It
 | `after_analyze` | `speckit.git.commit` | Yes | Auto-commit after analysis |
 | `after_taskstoissues` | `speckit.git.commit` | Yes | Auto-commit after issue sync |
 
+> Observação: no projeto Front Comanda, a criação automática de branches e o auto-commit via SpecKit são desativados por política. O controle de branches e commits é responsabilidade manual do desenvolvedor.
+
 ## Configuration
 
 Configuration is stored in `.specify/extensions/git/git-config.yml`:

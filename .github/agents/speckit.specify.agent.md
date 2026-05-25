@@ -70,11 +70,11 @@ Given that feature description, do this:
      - "Create a dashboard for analytics" → "analytics-dashboard"
      - "Fix payment processing timeout bug" → "fix-payment-timeout"
 
-2. **Branch creation** (optional, via hook):
+2. **Branch management**:
 
-   If a `before_specify` hook ran successfully in the Pre-Execution Checks above, it will have created/switched to a git branch and output JSON containing `BRANCH_NAME` and `FEATURE_NUM`. Note these values for reference, but the branch name does **not** dictate the spec directory name.
+   This project does not allow SpecKit to create or switch git branches automatically. Branch creation and commit control are the developer's responsibility and must be handled outside the core SpecKit workflow.
 
-   If the user explicitly provided `GIT_BRANCH_NAME`, pass it through to the hook so the branch script uses the exact value as the branch name (bypassing all prefix/suffix generation).
+   If a `before_specify` hook exists in a custom environment, it should not be relied on as part of the default feature creation flow. The spec directory name and the git branch name are independent — they may be the same, but that is the developer's choice.
 
 3. **Create the spec feature directory**:
 

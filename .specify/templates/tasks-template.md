@@ -24,6 +24,16 @@ description: "Template de tarefas para implementação de features do Front Coma
 - estilos globais: `src/styles.scss`
 - documentação do fluxo: `.specify/...` e `README.md`
 
+## Regras obrigatórias do agente
+
+- Priorizar qualidade de código, responsabilidade única e baixa complexidade ciclomática.
+- Incluir tarefa dedicada para cobertura de testes unitários 100%, validando todas as funções criadas e impactadas.
+- Incluir tarefa dedicada para revisão de todos os arquivos `.scss` novos ou alterados e validação do padrão de estilo do projeto.
+- Não criar branches ou commits automaticamente; todo controle de Git é responsabilidade do desenvolvedor.
+- Garantir que qualquer novo arquivo ou diretório siga estritamente a estrutura já adotada no projeto.
+- Reutilizar componentes globais em `src/app/shared` antes de criar novas abstrações.
+- Usar camelCase em nomes de componentes, arquivos e identificadores sempre que aplicável.
+
 ## Fase 1: Preparação
 
 **Objetivo**: alinhar contexto técnico e pontos de impacto antes da implementação
@@ -111,6 +121,9 @@ description: "Template de tarefas para implementação de features do Front Coma
 - [ ] T022 Revisar consistência com `shared/layout`, `shared/cards` e `shared/modal`
 - [ ] T023 Atualizar documentação relacionada se a entrega alterar convenções ou fluxo
 - [ ] T024 Executar testes relevantes e registrar pendências
+- [ ] T025 Revisar todos os arquivos `.scss` novos ou alterados e validar conformidade com o padrão do projeto
+- [ ] T026 Atualizar ou criar testes unitários cobrindo todas as funções criadas e impactadas
+- [ ] T027 Confirmar que o SpecKit não executou criação automática de branches ou commits
 
 ---
 
