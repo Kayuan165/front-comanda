@@ -15,10 +15,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ModalDelete } from '../../../shared/modal/modal-delete/modal-delete';
 import { ModalEdit } from '../../../shared/modal/modal-edit/modal-edit';
+import { LoadingSpinnerComponent } from '../../../shared/loading/loading-spinner';
 
 @Component({
   selector: 'app-usuarios-list',
@@ -29,13 +29,13 @@ import { ModalEdit } from '../../../shared/modal/modal-edit/modal-edit';
     ModalEdit,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
     MatSelectModule,
+    LoadingSpinnerComponent,
   ],
   standalone: true,
   templateUrl: './usuarios-list.html',
@@ -56,7 +56,7 @@ export class UsuariosList implements OnInit {
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.formEdit = this.fb.group({
       _id: [''],

@@ -20,10 +20,10 @@
   </div>
 
   <!-- Loading State -->
-  <div class="status-message" *ngIf="loading">
-    <mat-spinner diameter="24"></mat-spinner>
-    <span>Carregando pedidos...</span>
-  </div>
+  <app-loading-spinner
+    [visible]="loading"
+    [message]="'Carregando pedidos...'"
+  />
 
   <!-- Error State -->
   <div class="status-message error" *ngIf="error">

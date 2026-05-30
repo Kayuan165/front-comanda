@@ -28,6 +28,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CurrencyMaskDirective } from '../../../shared/directives/currency-mask.directive';
+import { LoadingSpinnerComponent } from '../../../shared/loading/loading-spinner';
 
 @Component({
   selector: 'app-pedidos-create',
@@ -50,6 +51,7 @@ import { CurrencyMaskDirective } from '../../../shared/directives/currency-mask.
     MatNativeDateModule,
     MatAutocompleteModule,
     CurrencyMaskDirective,
+    LoadingSpinnerComponent,
   ],
   standalone: true,
   templateUrl: './pedidos-create.html',

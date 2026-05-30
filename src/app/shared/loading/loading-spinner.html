@@ -1,0 +1,35 @@
+@if (!overlay) {
+  <div
+    [class]="'loading-spinner loading-spinner--' + size"
+    [class.loading-spinner--hidden]="!visible"
+    role="status"
+    [attr.aria-label]="message"
+    [attr.aria-hidden]="!visible"
+  >
+    <div class="loading-spinner__dots">
+      <span class="loading-spinner__dot"></span>
+      <span class="loading-spinner__dot"></span>
+      <span class="loading-spinner__dot"></span>
+    </div>
+    <span class="loading-spinner__message">{{ message }}</span>
+  </div>
+}
+
+@if (overlay) {
+  <div
+    class="loading-spinner__overlay"
+    [class.loading-spinner__overlay--hidden]="!visible"
+    role="status"
+    [attr.aria-label]="message"
+    [attr.aria-hidden]="!visible"
+  >
+    <div [class]="'loading-spinner loading-spinner--' + size">
+      <div class="loading-spinner__dots">
+        <span class="loading-spinner__dot"></span>
+        <span class="loading-spinner__dot"></span>
+        <span class="loading-spinner__dot"></span>
+      </div>
+      <span class="loading-spinner__message">{{ message }}</span>
+    </div>
+  </div>
+}

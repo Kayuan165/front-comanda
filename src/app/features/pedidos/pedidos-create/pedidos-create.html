@@ -381,10 +381,11 @@
 
         <div class="product-list">
           @if (loading) {
-            <div class="loading-container">
-              <mat-progress-spinner diameter="40"></mat-progress-spinner>
-              <p>Carregando produtos...</p>
-            </div>
+            <app-loading-spinner
+              size="small"
+              [visible]="loading"
+              [message]="'Carregando produtos...'"
+            />
           }
 
           @if (!loading && produtos.length === 0) {
