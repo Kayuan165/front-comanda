@@ -1,7 +1,16 @@
 <header class="topbar">
-  <div class="title">DeMattosLanches</div>
-  <div class="right"></div>
-  <button mat-icon-button aria-label="Logout" (click)="logout()">
-    <mat-icon>logout</mat-icon>
+  <div class="title">LaHamburgueria</div>
+
+  <button mat-button [matMenuTriggerFor]="userMenu" class="user-profile-btn">
+    <mat-icon>account_circle</mat-icon>
+    <span class="user-name">{{ userName }}</span>
+    <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
   </button>
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon color="warn">logout</mat-icon>
+      <span>Sair da conta</span>
+    </button>
+  </mat-menu>
 </header>

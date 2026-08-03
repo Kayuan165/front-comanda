@@ -7,15 +7,61 @@
   justify-content: space-between;
   padding: 0 14px;
   background: #fff;
-  border-bottom: 1px solid rgba(0,0,0,.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   z-index: 1000;
 
   .title {
     font-size: 16px;
     font-weight: 700;
     color: #2c3e50;
-    letter-spacing: .2px;
+    letter-spacing: 0.2px;
   }
 
-  .right { display: flex; align-items: center; gap: 10px; }
+  /* --- BOTÃO DO USUÁRIO --- */
+  .user-profile-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    color: #2c3e50;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f1f3f5 !important;
+    }
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 500;
+      max-width: 130px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    mat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+/* --- OVERRIDE DO MENU POPUP --- */
+::ng-deep {
+  .mat-mdc-menu-panel,
+  .mat-menu-panel {
+    background-color: #ffffff !important;
+    border-radius: 8px !important;
+  }
+
+  .mat-mdc-menu-item,
+  .mat-menu-item {
+    background-color: #ffffff !important;
+
+    &:hover {
+      background-color: #ffffff !important;
+    }
+  }
 }
