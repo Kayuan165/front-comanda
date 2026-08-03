@@ -18,10 +18,10 @@
     </mat-form-field>
   </div>
 
-  <div class="status-message" *ngIf="loading">
-    <mat-spinner diameter="24"></mat-spinner>
-    <span>Carregando produtos...</span>
-  </div>
+  <app-loading-spinner
+    [visible]="loading"
+    [message]="'Carregando produtos...'"
+  />
 
   <div class="status-message error" *ngIf="error">
     {{ error }}

@@ -5,7 +5,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { VizualizarPedido } from '../../../shared/modal/vizualizar-pedido/vizualizar-pedido';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +12,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { ModalConfirm } from '../../../shared/modal/modal-confirm/modal-confirm';
+import { LoadingSpinnerComponent } from '../../../shared/loading/loading-spinner';
 
 @Component({
   selector: 'app-pedidos-list',
@@ -21,7 +21,6 @@ import { ModalConfirm } from '../../../shared/modal/modal-confirm/modal-confirm'
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
     VizualizarPedido,
     MatSelectModule,
@@ -30,6 +29,7 @@ import { ModalConfirm } from '../../../shared/modal/modal-confirm/modal-confirm'
     MatChipsModule,
     MatButtonToggleModule,
     ModalConfirm,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './pedidos-list.html',
   styleUrl: './pedidos-list.scss',
