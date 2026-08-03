@@ -15,13 +15,14 @@ import { CurrencyBrPipe } from '../../../shared/pipes/currency-br.pipe';
 })
 export class Home implements OnInit {
   pedidosDoDia: number = 0;
-  valorTotalRecebido: string = "0";
+  valorTotalRecebido: string = '0';
+  qtdCancelada: number = 0;
   loading: boolean = true;
   error: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +32,7 @@ export class Home implements OnInit {
   carregarDados(): void {
     this.carregarPedidosDoDia();
     this.carregarValorRecebido();
+    this.carregarPedidosCancelados();
   }
 
   carregarPedidosDoDia(): void {
@@ -71,5 +73,23 @@ export class Home implements OnInit {
 
   recarregar(): void {
     this.carregarDados();
+  }
+
+  carregarPedidosCancelados(): void {
+    this.loading = false;
+    this.error = false;
+
+    this.metricsService.getQtdPedidosCancelados().subscribe({
+      next: (response) => {
+        this.qtdCancelada = response;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        this.error = true;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
   }
 }

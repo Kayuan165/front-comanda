@@ -16,10 +16,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { LoadingSpinnerComponent } from '../../../shared/loading/loading-spinner';
 
 @Component({
   selector: 'app-produto-list',
@@ -31,13 +31,13 @@ import { MatSelectModule } from '@angular/material/select';
     ModalEdit,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    LoadingSpinnerComponent,
   ],
   standalone: true,
   templateUrl: './produto-list.html',
@@ -65,7 +65,7 @@ export class ProdutoList implements OnInit {
     private produtoService: ProdutoService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.formEdit = this.fb.group({
       _id: [''],

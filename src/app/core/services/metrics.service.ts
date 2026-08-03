@@ -15,4 +15,8 @@ export class MetricsService {
   getQtdRecebida(): Observable<any> {
     return this.http.get(`${this.apiUrl}/valorTotal`);
   }
+
+  getQtdPedidosCancelados(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/qtdCancelada`);
+  }
 }

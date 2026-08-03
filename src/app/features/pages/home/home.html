@@ -1,7 +1,11 @@
 <div class="home-container">
   <div class="home-header">
     <h1>Dashboard</h1>
-    <button mat-icon-button (click)="recarregar()" aria-label="Recarregar dados">
+    <button
+      mat-icon-button
+      (click)="recarregar()"
+      aria-label="Recarregar dados"
+    >
       <mat-icon>refresh</mat-icon>
     </button>
   </div>
@@ -25,5 +29,13 @@
       color="primary"
     >
     </app-cards>
+    <app-cards
+      title="Pedidos Cancelados"
+      [value]="qtdCancelada"
+      [loading]="loading"
+      [error]="error"
+      icon="cancel"
+      color="danger"
+    ></app-cards>
   </div>
 </div>

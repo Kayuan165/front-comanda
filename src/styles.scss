@@ -1,20 +1,21 @@
-
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$rose-palette,
-      tertiary: mat.$red-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$rose-palette,
+        tertiary: mat.$red-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
 body {
@@ -33,13 +34,14 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
-$cor-fundo: #F8F9FA;
-$cor-borda-vermelha: #DC3545;
-$cor-texto-principal: #2C3E50;
-$cor-texto-secundario: #6C757D;
-$cor-card: #FFFFFF;
-$cor-destaque-verde: #28A745;
-$cor-barra-inferior: #E9ECEF;
+$cor-fundo: #f8f9fa;
+$cor-borda-vermelha: #dc3545;
+$cor-texto-principal: #2c3e50;
+$cor-texto-secundario: #6c757d;
+$cor-card: #ffffff;
+$cor-destaque-verde: #28a745;
+$cor-barra-inferior: #e9ecef;
+$cor-acento: #3f51b5; // Índigo 500 — acento tecnológico conforme constituição do projeto
 
 $border-radius: 8px;
 $padding-card: 16px;
@@ -84,5 +86,11 @@ $shadow-card: 0 2px 5px rgba(0, 0, 0, 0.05);
   color: #fff;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

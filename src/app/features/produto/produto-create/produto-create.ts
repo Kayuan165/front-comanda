@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CurrencyMaskDirective } from '../../../shared/directives/currency-mask.directive';
 
 @Component({
   selector: 'app-produto-create',
@@ -29,6 +30,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    CurrencyMaskDirective,
   ],
   standalone: true,
   templateUrl: './produto-create.html',
@@ -41,7 +43,7 @@ export class ProdutoCreate {
   constructor(
     private produtoService: ProdutoService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.produtoForm = this.fb.group({
       descricao: ['', [Validators.required, Validators.minLength(3)]],
@@ -75,7 +77,7 @@ export class ProdutoCreate {
         this.snackBar.open(
           err.error?.message || 'Erro ao cadastrar o produto!',
           'Fechar',
-          { duration: 3000, panelClass: ['error-snackbar'] }
+          { duration: 3000, panelClass: ['error-snackbar'] },
         );
         this.isLoading = false;
       },

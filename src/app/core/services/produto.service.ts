@@ -19,6 +19,11 @@ export class ProdutoService {
     return this.http.get<Produto[]>(this.apiUrl, { params });
   }
 
+  getProdutosDescricao(descricao: string): Observable<Produto[]> {
+    const params = new HttpParams().set('descricao', descricao);
+    return this.http.get<Produto[]>(`${this.apiUrl}/buscar`, { params });
+  }
+
   getAllProdutos(): Observable<Produto[]> {
     return this.http.get<Produto[]>(`${this.apiUrl}/list`);
   }
@@ -30,7 +35,7 @@ export class ProdutoService {
   editarProduto(produto: Produto): Observable<Produto> {
     return this.http.patch<Produto>(
       `${this.apiUrl}/update/:${produto._id}`,
-      produto
+      produto,
     );
   }
 

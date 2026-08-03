@@ -41,7 +41,7 @@ export class Login implements OnInit {
 
   loading = signal<boolean>(false);
   errorMessage = signal<string>('');
-  showPassword = true;
+  showPassword = false;
 
   loginForm: FormGroup;
 
