@@ -144,6 +144,17 @@ Antes de usar os artefatos de produção, gere o build do projeto.
 - Em telas de listagem e formulário, documente e implemente estados de loading, erro, vazio e sucesso.
 - Preserve o comportamento mobile-first e os padrões de navegação existentes.
 
+## Tokens de design compartilhados
+
+Os tokens visuais comuns aos dois frontends ficam em
+`src/styles/tokens/_design-tokens.scss` e são documentados em
+`src/styles/tokens/design-tokens.md`. O `front-usuario` mantém uma cópia com os
+mesmos nomes e valores em sua própria árvore, sem introduzir um monorepo.
+
+Novos estilos devem preferir as CSS custom properties documentadas, como
+`--cor-acento`, `--cor-fundo`, `--espaco-4` e `--border-radius`, evitando
+espalhar novos valores visuais diretamente nos componentes.
+
 ## Specify
 
 O projeto usa a pasta `.specify/` para padronizar specs, planos, tarefas e checklists. Os templates foram ajustados para refletir o contexto real deste frontend Angular, então novas especificações devem:
